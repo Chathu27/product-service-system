@@ -1,0 +1,62 @@
+.error {
+	color: #f50b00;
+    font-size: 0.8rem;
+    width: 100%;
+}
+
+.form-control.error{
+    border-color: #f50b00;
+}
+
+.left-nav {
+	background: #404142;
+
+}
+.col-md-7 {
+    width: 50%;
+    padding-right: 15px;
+    padding-left: 100px;
+    margin-right: auto;
+    margin-left: 100px;
+}
+
+.page{
+
+	padding-bottom: 30px;
+}
+
+.modal-body ul {
+    padding-left: 15px;
+}
+
+.modal-body ul li{
+    list-style-type: none;
+}
+
+.modal-body ul li label{
+    font-weight: 700;
+    width: 130px;
+}
+
+.dt-buttons{
+    background: #f3f3f3;
+    padding: 15px;
+    border: 1px #ccc solid;
+    margin-bottom: 15px;
+}
+
+button.buttons-copy{
+    background: transparent;
+    border: 0;
+    cursor: default;
+    margin-right: 10px;
+}
+
+button.buttons-copy h5{
+    margin-bottom: 0;
+}
+
+.service_order{
+
+    font-weight: bold
+}
