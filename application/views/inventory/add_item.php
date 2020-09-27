@@ -38,75 +38,68 @@
             <div class="top-header">
               <h2 class="h3 mb-2 text-gray-800">Add Item Here</h2> 
             </div>
-             
-             <div class="card shadow">
 
-              <div class="card-body"> 
-
-                <form id="myform" class="form-inline box_form" novalidate="novalidate">
-
+            <div class="card shadow"> 
+              <div class="card-body">
+                <form id="myform" class="box_form col-md-12" novalidate="novalidate"> 
                   <div class="alert alert-success alert-dismissible d-none">
                     <button type="button" class="close" data-dismiss="alert">&times;</button>
                     <strong>Success!</strong> Item details added successfully.
                   </div> 
 
-                  <div class="row">
-
-                  <div class="form-group">
-                    <label for="name">Catagory</label>
-                    <select class="form-control" name="catagory_id" id="catagory_id"></select> 
-                  </div>
-
-                  <div class="form-group">
-                    <label for="name">Item Name</label>
-                    <input type="text" class="form-control" id="item_name" name="item_name"> 
-                  </div>
-
-                    <div class="form-group">
-                    <label for="name">Price</label>
-                    <input type="text" class="form-control" id="price" name="price">
-                  </div>
-
-                    <div class="form-group">
-                    <label for="name">Quantity</label>
-                    <input type="number" name="quantity" id="quantity">
+                  <div class="row"> 
+                    <div class="form-group col-md-6">
+                      <label for="name">Catagory</label>
+                      <select class="form-control" name="catagory_id" id="catagory_id"></select> 
                     </div>
+                  </div>
+                  <div class="row"> 
+                    <div class="form-group col-md-4">
+                      <label for="name">Item Name</label>
+                      <input type="text" class="form-control" id="item_name" name="item_name"> 
+                    </div> 
+                    <div class="form-group col-md-4">
+                      <label for="name">Price</label>
+                      <input type="text" class="form-control" id="price" name="price">
+                    </div> 
+                    <div class="form-group col-md-4">
+                      <label for="name">Quantity</label>
+                      <input type="number" class="form-control" name="quantity" id="quantity">
                     </div>
+                  </div> 
+                  <button type="submit" class="btn btn-primary" id="login_btn"name="add">Add item</button> 
+                </form>
+              </div>
+            </div>
+            
+            <br/>
+            <h4 class="header-title">Added Items</h4>
 
-                  <button type="submit" class="btn btn-primary" id="login_btn"name="add">Add item</button>
-
-
-
-
- 
-                </form> 
-                      <div class="col-lg-6 mt-5">
-                        <div class="card shadow">
-                            <div class="card-body">
-                                <h4 class="header-title">Add Items</h4>
-                                <div class="single-table">
-                                    <div class="table-responsive">
-                                        <table class="table editable_table">
-                                            <thead class="text-uppercase">
-                                                <tr class="table-active">
-                                                    <th scope="col">Catorgory ID</th>
-                                                    <th scope="col">Catorgory Name</th>
-                                                    <th scope="col">ID</th>
-                                                    <th scope="col">Name</th>
-                                                    <th scope="col">Price</th>
-                                                    <th scope="col">Quantity</th>
-          
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
+             <div class="card shadow"> 
+              <div class="card-body">    
+                <div class="single-table">
+                    <div class="table-responsive">
+                        <table class="table editable_table">
+                            <thead class="text-uppercase">
+                                <tr class="table-active">
+                                    <th scope="col">Catorgory ID</th>
+                                    <th scope="col">Catorgory Name</th>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Quantity</th>
+                                    <th scope="col">Quantity</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
                     </div>
+                  </div>
+                      
+                   
+                  
+              
        <!-- /.container-fluid -->
 
       </div>
