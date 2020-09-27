@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class catagory_model extends CI_Model {
 
 
-
+/* Get all categories*/
 
 public function get_all_catagories(){
 
