@@ -8,7 +8,7 @@ class catagory_model extends CI_Model {
 
 public function get_all_catagories(){
 
-	 	$select_query = "SELECT * FROM `catagory` ORDER BY catagory_id DESC LIMIT 5"; 
+	 	$select_query = "SELECT * FROM `catagory` ORDER BY catagory_id DESC LIMIT 15"; 
 
 		$query = $this->db->query($select_query);
  

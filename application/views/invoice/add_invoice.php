@@ -58,11 +58,17 @@
 
                       <li><label for="first_name">Customer</label> <span id="first_name"></span> <span id="last_name"></span></li>  
 
+                      <li><label for="first_name">Customer Address </label> <span id="addr"></span></li>
+
+                      <li><label for="contact_no">Contact No </label> <span id="contact_no"></span> </li>
+
                       <li><label for="machine_model">Machine Model</label> <span id="machine_model"></span></li>
 
                       <li><label for="serial_no">Serial No</label> <span id="serial_no"></span></li>
 
-                      <li><label for="estimate_no">Estimate no</label> <span id="estimate_no"></span> <span id="contact_no"></span></li>  
+                      <li><label for="estimate_id">Estimate no</label> <span id="estimate_id"></span> <span id="estimate_id"></span></li>
+
+                       <li><label for="completed_date">Complete Date</label> <span id="completed_date"></span> <span id="completed_date"></span></li>  
                       
                     </ul>
                   </div> 
@@ -71,8 +77,8 @@
               <div class="row">
 
                   <div class="form-group col-md-4">
-                      <label for="order_date">Invoice Date</label>
-                      <input type="Date" name="invoice_date"  class="form-control" id="invoice_date">
+                      <label for="invoice_date">Invoice Date</label>
+                      <input type="Date" name="invoice_date"  class="form-control" id="invoice_date" disabled="disabled">
                   </div>
 
 
@@ -90,41 +96,13 @@
                                 <th></th> 
                               </tr>
                           </thead>
-                          <tbody>
+                        <tbody>
 
-                           <tr>
-                            <td>
-                              <input class="form-control" name="item_id" id="item_id">
-                            </td>
-                            <td>
-                              <select class="form-control" name="item_name" id="item_name"></select>
-                            </td>
-                            <td>
-                              <input class="form-control" name="quantity" id="quantity">
-                            </td>
-                            <td>
-                              <input class="form-control" name="price" id="price">
-                            </td>
-                            <td>
-                              <input class="form-control" name="total" id="total">
-                            </td>
-                          </tr> 
-<!-- 
-                          <tr>
-                            <td><textarea name="item_code" id="item_code" cols="20" rows="1"></textarea></td>
-                            <td><textarea name="item_name" id="item_name" cols="20" rows="1"></textarea></td>
-                            <td><textarea name="price" id="price" cols="20" rows="1"></textarea></td>
-                            <td><textarea name="quantity" id="quantity" cols="20" rows="1"></textarea></td>
-                            <td><textarea name="total" id="total" cols="20" rows="1"></textarea></td>
-                          </tr>  -->
-
-                          </tbody>
+                        </tbody>
                       </table>
-
                 </div>
 
          
-                 
                   <button type="submit" class="btn btn-primary" id="login_btn">Save Invoice</button>
 
                   <a href="<?php echo base_url(); ?>index.php/home_controller/" class="btn btn-secondary">Cancel</a> 
@@ -151,7 +129,7 @@
 
   $(document).ready(function () {  
 
-    $('#order_date').val(shortDate);
+    $('#invoice_date').val(shortDate);
 
 
      var price = 0;
@@ -160,55 +138,6 @@
      var total = 0;
 
    /*get item codes*/
-
-    $.ajax({
-        url: '<?php echo base_url(); ?>index.php/inventory_controller/get_all_item_data',
-        type: 'POST',  
-      })
-      .done(function(data) {
-
-        var output = JSON.parse(data);
-        console.log(output);
-         
-        if (output.status == 200) {  
-
-          $('#item_name').append('<option value="default">Select item name</option>') 
-
-          for (var i = 0; i < output.data.length; i++) {
-
-            $('#item_name').append('<option data-price="'+output.data[i].price+'" data-item_id="'+output.data[i].item_id+'" data-total="'+output.data[i].total+'"value='+output.data[i].item_name+'>'+output.data[i].item_name+'</option>') 
-          }  
-        }
-
-      })
-
-      .fail(function() {
-        console.log("error");
-      });
-
-
-       $('#item_name').change(function(event) {
-         /* Act on the event */
-
-         price = $('option:selected', this).attr("data-price");
-         item_id = $('option:selected', this).attr("data-item_id");  
-
-       //  console.log(total, quantity, price) 
-       
-          $('#price').val(price);
-          $('#item_id').val(item_id);
- 
-       });
-
-       $('#quantity').change(function(event) {
-          event.preventDefault();
-
-          quantity =  $('#quantity').val();
-          total = parseInt(quantity)* parseInt(price); 
-
-            console.log(total, parseInt(quantity), parseInt(price) ) 
-          $('#total').val(total);
-       });
 
 /*--*/
   
@@ -231,12 +160,80 @@
         $('#first_name').html(output.data.first_name); 
         $('#last_name').html(output.data.last_name); 
         $('#contact_no').html(output.data.contact_no);
+        $('#addr').html(output.data.addr);
         $('#machine_model').html(output.data.machine_model);
         $('#serial_no').html(output.data.serial_no);
         $('#accessories').html(output.data.accessories);
         $('#remarks').html(output.data.remarks);
+        $('#completed_date').html(output.data.completed_date);
          
       }
+
+    })
+    .fail(function() {
+      console.log("error");
+    })
+    .always(function() {
+      console.log("complete");
+    });
+
+
+    $.ajax({
+        url: '<?php echo base_url(); ?>index.php/estimates_controller/get_single_estimate_data',
+        type: 'POST', 
+        data: { service_order_no: getQueryVariable("service_order_no")},
+    })
+    .done(function(data) {
+      
+      var output = JSON.parse(data); 
+     
+    
+      for (var i = 0; i < output.data.length; i++) {
+        
+        
+          $('#estimate_id').html(output.data[i].estimate_id);
+      }
+          
+
+    })
+    .fail(function() {
+      console.log("error");
+    })
+    .always(function() {
+      console.log("complete");
+    });
+
+
+  $.ajax({
+        url: '<?php echo base_url(); ?>index.php/estimates_controller/get_single_estimate_item_data',
+        type: 'POST', 
+        data: { service_order_no: getQueryVariable("service_order_no")},
+    })
+    .done(function(data) {
+      
+      var output = JSON.parse(data); 
+     
+      console.log(output,"ppp");
+
+      for (var i = 0; i < output.data.length; i++) {
+
+          var quantity =  (output.data[i].quantity);
+          var price = (output.data[i].price);
+          var total = parseInt(quantity)*parseInt(price);
+
+
+    $('#invoice_table tbody').append(`
+              <tr>
+                  <td>`+output.data[i].item_id+`</td> 
+                  <td>`+output.data[i].item_name+`</td> 
+                  <td>`+output.data[i].quantity+`</td>
+                  <td>`+output.data[i].price+`</td> 
+
+                  <td>`+total+`</td>
+
+                </tr>`);
+
+      }          
 
     })
     .fail(function() {
@@ -291,38 +288,38 @@
               // }, 
           },
 
-          submitHandler: function(form) { 
+      //     submitHandler: function(form) { 
       
-            var data = {
-            service_order_no: getQueryVariable("service_order_no"), 
-            order_date: $('#order_date').val(),
-            estimate_by: $('#estimate_by').val(), 
-            remarks: $('#feed_back').val(),
-            item_id: $('#item_id').val(),
-            quantity: $('#quantity').val(),             
-            }
+      //       var data = {
+      //       service_order_no: getQueryVariable("service_order_no"), 
+      //       order_date: $('#order_date').val(),
+      //       estimate_by: $('#estimate_by').val(), 
+      //       remarks: $('#feed_back').val(),
+      //       item_id: $('#item_id').val(),
+      //       quantity: $('#quantity').val(),             
+      //       }
  
-            $.ajax({
-              url: '<?php echo base_url(); ?>index.php/estimates_controller/add_estimate_data',
-              type: 'POST', 
-              data: data,
-            })
-            .done(function(data) {
+      //       $.ajax({
+      //         url: '<?php echo base_url(); ?>index.php/estimates_controller/add_estimate_data',
+      //         type: 'POST', 
+      //         data: data,
+      //       })
+      //       .done(function(data) {
   
-              var output = JSON.parse(data);
+      //         var output = JSON.parse(data);
               
-              if (output.status == 200) { 
-                $('.alert-success').removeClass('d-none'); 
-                window.scroll(0, 0)
-                $('#myform')[0].reset();
-              }
+      //         if (output.status == 200) { 
+      //           $('.alert-success').removeClass('d-none'); 
+      //           window.scroll(0, 0)
+      //           $('#myform')[0].reset();
+      //         }
 
-            })
-            .fail(function() {
-              console.log("error");
-            }); 
+      //       })
+      //       .fail(function() {
+      //         console.log("error");
+      //       }); 
       
-      }
+      // }
       });
 
 

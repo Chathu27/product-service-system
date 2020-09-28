@@ -44,7 +44,7 @@
 
             view_btn = `<a href="#" data-toggle="modal" onclick="view_order(`+output.data[i].service_order_no+`)" class="edit_item"><i class="fa fa-eye " aria-hidden="true"></i> View
                     </a>`;
-            view_estimate_btn = `<a href="`+app_url+`index.php/estimates_controller/view_estimates/?service_order_no=`+output.data[i].service_order_no+`&status=`+output.data[i].status+`" class="edit_item "><i class="fa fa-pencil-square-o" aria-hidden="true"></i> View
+            view_estimate_btn = `<a href="`+app_url+`index.php/estimates_controller/view_estimates/?service_order_no=`+output.data[i].service_order_no+`&status=`+output.data[i].status+` class="edit_item "><i class="fa fa-pencil-square-o" aria-hidden="true"></i> View
                     </a>`;
 
             // view_btn = `<a href="`+app_url+`index.php/estimates_controller/view_estimates/?service_order_no=`+output.data[i].service_order_no+`" class="edit_item"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> View

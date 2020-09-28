@@ -67,7 +67,7 @@
                       <input type="number" class="form-control" name="quantity" id="quantity">
                     </div>
                   </div> 
-                  <button type="submit" class="btn btn-primary" id="login_btn"name="add">Add item</button> 
+                  <button type="submit" class="btn btn-primary" id="login_btn"name="add">Add item</button>
                 </form>
               </div>
             </div>
@@ -212,6 +212,7 @@
                 $('.alert-success').removeClass('d-none'); 
                 window.scroll(0, 0)
                 $('#myform')[0].reset();
+                location.reload();
               }
 
             })
@@ -231,6 +232,8 @@
 
               var output = JSON.parse(data);
               console.log(output);
+
+
          
               if (output.status == 200) {  
 
@@ -252,6 +255,9 @@
 
                     <a href="javascript:void(0)" data-id="`+output.data[i].item_id+`" class="delete_item"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete
                     </a> 
+                    <a href="`+app_url+`index.php/inventory_controller/edit_item/?item_id=`+output.data[i].item_id+`" class="edit_item"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit
+                    </a>
+                     
 
 
                   </td>

@@ -235,7 +235,7 @@
      var total = 0;
      var buttons="";
      var reject_btn="";
-
+     var completed_date = shortDate;
 
   $("#approve_btn").click(function(){
 
@@ -336,6 +336,7 @@ $("#complete").click(function(){
      var data = { 
      service_order_no: getQueryVariable("service_order_no"),
      status: 4,
+     completed_date: completed_date
     }
 
   $.ajax({
