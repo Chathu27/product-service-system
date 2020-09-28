@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 27, 2020 at 05:30 PM
+-- Generation Time: Sep 28, 2020 at 06:29 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.2.31
 
@@ -37,8 +37,21 @@ CREATE TABLE `catagory` (
 --
 
 INSERT INTO `catagory` (`catagory_id`, `catagory_name`) VALUES
-(100001, 'Hose'),
-(100002, 'Nozzle');
+(100000, 'Wheels'),
+(100001, 'High pressure Hose'),
+(100002, 'Nozzle'),
+(100003, 'Valve'),
+(100004, 'Vacuum Hose'),
+(100005, 'Tool'),
+(100006, 'Housing'),
+(100007, 'Oil'),
+(100008, 'screw'),
+(100009, 'Nut'),
+(100010, 'Brush'),
+(100011, 'Trigger Gun'),
+(100012, 'Filter'),
+(100013, 'Power Cable'),
+(100014, 'Filter');
 
 -- --------------------------------------------------------
 
@@ -61,7 +74,7 @@ CREATE TABLE `customer` (
 --
 
 INSERT INTO `customer` (`customer_id`, `first_name`, `last_name`, `email_addr`, `addr`, `contact_no`, `nic`) VALUES
-(2, 'Kavindi', 'Dep', 'kavi@gmail.com1', '3/A,Rajagiriya1', '0714568554', '9785412558v'),
+(2, 'Kavindi', 'Dep', 'kavi@gmail.com1', '3/A,Rajagiriya1', '0714568558', '9785412558v'),
 (3, 'Chathu', 'Gunwardane', 'chathu@gmail.com', '45 Athurugiriya', '07789546321', '9645121323'),
 (6, 'Madara1', 'Godage', 'madumi1990@gmail.com', '8b,First streett,colombo-06', '0767409396', '645371489v'),
 (7, 'Nuwan', 'Buddhika', 'nuwanbuddi@gmail.com', 'No:400,Temple Rd, Athurugiriya-0', '0112433566', '8990754568v'),
@@ -133,7 +146,17 @@ CREATE TABLE `machine_models` (
 
 INSERT INTO `machine_models` (`machine_id`, `machine_model`) VALUES
 (100001, 'K5 Premium Electric Power Pressure Washer'),
-(100002, 'K2 Plus Electric Power Pressure Washer');
+(100002, 'K2 Plus Electric Power Pressure Washer'),
+(100003, ' K7.85M Pressure Washer'),
+(100004, 'Vc 2 Vacuum Cleaner '),
+(100005, 'Mv3 1000-Watt Wet and Dry Vacuum Cleaner'),
+(100006, 'Vc 3 Vacuum Cleaner '),
+(100007, 'WD 3.5 Premium Wet & Dry Vacuum Cleaner'),
+(100008, 'HD 5/12 C PLUS Professional Pressure Washer'),
+(100009, 'Spray-Extraction Carpet & Upholstery Cleaners'),
+(100010, 'HDS 5/12 C hot water high-pressure cleaner'),
+(100011, ' SV Steam vacuum cleaner'),
+(100012, ' WV5 Premium Window Vacuum C');
 
 -- --------------------------------------------------------
 
@@ -154,9 +177,21 @@ CREATE TABLE `product_items` (
 --
 
 INSERT INTO `product_items` (`item_id`, `item_name`, `price`, `quantity`, `catagory_id`) VALUES
-(23, 'Nozzle', '522', 1, 100002),
 (27, ' Rotary Nozzle', '1300', 10, 100002),
-(36, 'Short Hose', '7888', 2, 100001);
+(36, 'Valve Seat', '750', 2, 100013),
+(40, 'Power Nozzle', '1750', 1, 100002),
+(42, 'Vacuum Bag', '750', 1, 100014),
+(44, 'Vc Flat Filter', '1100', 1, 100014),
+(45, 'WD Vacuum Filter ', '800', 1, 100012),
+(46, 'MV 3 Vacuum Filter ', '800', 1, 100014),
+(47, 'Floor Tool', '1200', 1, 100005),
+(48, 'Hex Socket', '25', 1, 100008),
+(49, 'Hex Washer', '40', 1, 100008),
+(50, 'Slotted Hex Washer', '40', 1, 100008),
+(51, 'Valve Seat', '750', 5, 100003),
+(52, 'Vacuum Brush', '450', 1, 100010),
+(53, 'Pump adapter ', '150', 1, 0),
+(54, 'Valve Seat', '750', 1, 100003);
 
 -- --------------------------------------------------------
 
@@ -183,20 +218,21 @@ CREATE TABLE `service_orders` (
   `accessories` varchar(225) NOT NULL,
   `remarks` varchar(225) NOT NULL,
   `machine_id` int(11) NOT NULL,
-  `status` int(11) NOT NULL
+  `status` int(11) NOT NULL,
+  `completed_date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `service_orders`
 --
 
-INSERT INTO `service_orders` (`service_order_no`, `customer_id`, `order_date`, `serial_no`, `accessories`, `remarks`, `machine_id`, `status`) VALUES
-(870989019, '6', '2020-08-31', '40001', 'Hose,hose', 'Hose Damage', 100002, 4),
-(870989023, '11', '2020-09-02', '67904', 'power nozzle, filter', 'Nozzle without hose', 100001, 1),
-(870989024, '7', '2020-09-07', '200053', 'filter', 'hose damage', 100001, 3),
-(870989029, '10', '2020-09-16', '50001', 'test', 'testing', 100002, 4),
-(870989037, '11', '2020-09-22', '10002', 'hose', 'hose damage', 100001, 1),
-(870989038, '12', '2020-09-22', '10002', 'ljkljklj', 'ljkljkl', 100001, 2);
+INSERT INTO `service_orders` (`service_order_no`, `customer_id`, `order_date`, `serial_no`, `accessories`, `remarks`, `machine_id`, `status`, `completed_date`) VALUES
+(870989019, '6', '2020-08-31', '40001', 'Hose,hose', 'Hose Damage', 100002, 4, '0000-00-00'),
+(870989023, '11', '2020-09-02', '6790420', 'power nozzle, filter', 'Nozzle without hose', 100002, 1, '0000-00-00'),
+(870989024, '7', '2020-09-07', '200053', 'filter', 'hose damage', 100001, 4, '2020-09-28'),
+(870989029, '10', '2020-09-16', '50001', 'test', 'testing', 100002, 4, '0000-00-00'),
+(870989037, '11', '2020-09-22', '10002', 'hose', 'hose damage', 100001, 1, '0000-00-00'),
+(870989038, '12', '2020-09-22', '10002', 'ljkljklj', 'ljkljkl', 100001, 2, '0000-00-00');
 
 -- --------------------------------------------------------
 
@@ -288,7 +324,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `catagory`
 --
 ALTER TABLE `catagory`
-  MODIFY `catagory_id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100003;
+  MODIFY `catagory_id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100015;
 
 --
 -- AUTO_INCREMENT for table `customer`
@@ -306,7 +342,7 @@ ALTER TABLE `estimate_data`
 -- AUTO_INCREMENT for table `product_items`
 --
 ALTER TABLE `product_items`
-  MODIFY `item_id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `item_id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT for table `service_orders`
