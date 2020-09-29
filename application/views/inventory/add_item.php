@@ -82,9 +82,8 @@
                         <table class="table editable_table">
                             <thead class="text-uppercase">
                                 <tr class="table-active">
-                                    <th scope="col">Catorgory ID</th>
-                                    <th scope="col">Catorgory Name</th>
                                     <th scope="col">ID</th>
+                                    <th scope="col">Catorgory Name</th>
                                     <th scope="col">Name</th>
                                     <th scope="col">Price</th>
                                     <th scope="col"></th>
@@ -242,9 +241,8 @@
 
             $('.editable_table tbody').append(`
               <tr>
-                  <td>`+output.data[i].catagory_id+`</td> 
-                  <td>`+output.data[i].catagory_name+`</td> 
                   <td>`+output.data[i].item_id+`</td>
+                  <td>`+output.data[i].catagory_name+` (`+output.data[i].catagory_id+`)</td> 
                   <td>`+output.data[i].item_name+`</td> 
                   <td>`+output.data[i].price+`</td> 
 

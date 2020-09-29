@@ -68,18 +68,15 @@
 
                       <li><label for="estimate_id">Estimate no</label> <span id="estimate_id"></span> <span id="estimate_id"></span></li>
 
-                       <li><label for="completed_date">Complete Date</label> <span id="completed_date"></span> <span id="completed_date"></span></li>  
+                       <li><label for="completed_date">Complete Date</label> <span id="completed_date"></span> <span id="completed_date"></span></li> 
+
+                       <li><label for="invoice_date">Invoice Date</label> <span id="invoice_date"></span> <span id="invoice_date"></span></li> 
                       
                     </ul>
                   </div> 
                 </div>
 
               <div class="row">
-
-                  <div class="form-group col-md-4">
-                      <label for="invoice_date">Invoice Date</label>
-                      <input type="Date" name="invoice_date"  class="form-control" id="invoice_date" disabled="disabled">
-                  </div>
 
 
                 </div>
@@ -129,7 +126,7 @@
 
   $(document).ready(function () {  
 
-    $('#invoice_date').val(shortDate);
+  
 
 
      var price = 0;
@@ -166,6 +163,8 @@
         $('#accessories').html(output.data.accessories);
         $('#remarks').html(output.data.remarks);
         $('#completed_date').html(output.data.completed_date);
+        $('#invoice_date').html(shortDate);
+
          
       }
 

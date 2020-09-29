@@ -16,4 +16,8 @@ class invoice_controller extends CI_Controller {
 		$this->load->view('invoice/add_invoice');
 	}
 
+	public function view_invoice(){
+		$this->load->view('invoice/view_invoice');
+	}
+
 }
