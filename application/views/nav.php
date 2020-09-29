@@ -115,7 +115,7 @@
         <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Invoice:</h6>
-            <a class="collapse-item" href="login.html">Invoice</a>
+            <a class="collapse-item" href="<?php echo base_url(); ?>index.php/invoice_controller/view_invoice">Invoice</a>
           </div>
         </div>
       </li>

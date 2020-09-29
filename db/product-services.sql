@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 28, 2020 at 06:29 PM
+-- Generation Time: Sep 29, 2020 at 06:59 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.2.31
 
@@ -132,6 +132,19 @@ INSERT INTO `estimate_items` (`estimate_id`, `item_id`, `quantity`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `invoice`
+--
+
+CREATE TABLE `invoice` (
+  `invoice_no` int(11) NOT NULL,
+  `estimate_id` int(11) NOT NULL,
+  `invoice_date` date NOT NULL,
+  `total` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `machine_models`
 --
 
@@ -179,7 +192,7 @@ CREATE TABLE `product_items` (
 INSERT INTO `product_items` (`item_id`, `item_name`, `price`, `quantity`, `catagory_id`) VALUES
 (27, ' Rotary Nozzle', '1300', 10, 100002),
 (36, 'Valve Seat', '750', 2, 100013),
-(40, 'Power Nozzle', '1750', 1, 100002),
+(40, 'Power Nozzle', '1755', 1, 100002),
 (42, 'Vacuum Bag', '750', 1, 100014),
 (44, 'Vc Flat Filter', '1100', 1, 100014),
 (45, 'WD Vacuum Filter ', '800', 1, 100012),
@@ -190,8 +203,8 @@ INSERT INTO `product_items` (`item_id`, `item_name`, `price`, `quantity`, `catag
 (50, 'Slotted Hex Washer', '40', 1, 100008),
 (51, 'Valve Seat', '750', 5, 100003),
 (52, 'Vacuum Brush', '450', 1, 100010),
-(53, 'Pump adapter ', '150', 1, 0),
-(54, 'Valve Seat', '750', 1, 100003);
+(54, 'Valve Seat', '750', 1, 100003),
+(55, 'Vacuum Short Hose', '950', 1, 100004);
 
 -- --------------------------------------------------------
 
@@ -286,6 +299,12 @@ ALTER TABLE `estimate_items`
   ADD PRIMARY KEY (`estimate_id`);
 
 --
+-- Indexes for table `invoice`
+--
+ALTER TABLE `invoice`
+  ADD PRIMARY KEY (`invoice_no`);
+
+--
 -- Indexes for table `machine_models`
 --
 ALTER TABLE `machine_models`
@@ -339,10 +358,16 @@ ALTER TABLE `estimate_data`
   MODIFY `estimate_id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=119;
 
 --
+-- AUTO_INCREMENT for table `invoice`
+--
+ALTER TABLE `invoice`
+  MODIFY `invoice_no` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `product_items`
 --
 ALTER TABLE `product_items`
-  MODIFY `item_id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `item_id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- AUTO_INCREMENT for table `service_orders`
