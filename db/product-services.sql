@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 29, 2020 at 06:59 PM
--- Server version: 10.4.11-MariaDB
--- PHP Version: 7.2.31
+-- Generation Time: Sep 29, 2020 at 09:42 PM
+-- Server version: 10.4.14-MariaDB
+-- PHP Version: 7.4.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -105,7 +105,8 @@ INSERT INTO `estimate_data` (`estimate_id`, `order_date`, `estimate_by`, `remark
 (115, '2020-09-23', ' Ravudu', 'Hose Damage/nozzle Damage', 870989029),
 (116, '2020-09-23', 'Madawa', 'testing', 870989038),
 (117, '2020-09-24', 'Madawa', 'Valve problem', 870989019),
-(118, '2020-09-25', 'chathura ', 'hose damage', 870989024);
+(118, '2020-09-25', 'chathura ', 'hose damage', 870989024),
+(155, '2020-09-30', 'Ruwan', 'Not good', 870989023);
 
 -- --------------------------------------------------------
 
@@ -114,6 +115,7 @@ INSERT INTO `estimate_data` (`estimate_id`, `order_date`, `estimate_by`, `remark
 --
 
 CREATE TABLE `estimate_items` (
+  `id` int(11) NOT NULL,
   `estimate_id` int(200) NOT NULL,
   `item_id` int(200) NOT NULL,
   `quantity` int(200) NOT NULL
@@ -123,24 +125,15 @@ CREATE TABLE `estimate_items` (
 -- Dumping data for table `estimate_items`
 --
 
-INSERT INTO `estimate_items` (`estimate_id`, `item_id`, `quantity`) VALUES
-(115, 27, 1),
-(116, 36, 1),
-(117, 36, 2),
-(118, 36, 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `invoice`
---
-
-CREATE TABLE `invoice` (
-  `invoice_no` int(11) NOT NULL,
-  `estimate_id` int(11) NOT NULL,
-  `invoice_date` date NOT NULL,
-  `total` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+INSERT INTO `estimate_items` (`id`, `estimate_id`, `item_id`, `quantity`) VALUES
+(1, 100, 45, 1),
+(2, 100, 55, 1),
+(3, 115, 27, 1),
+(4, 116, 36, 1),
+(5, 117, 36, 2),
+(23, 155, 44, 1),
+(24, 155, 42, 1),
+(25, 155, 48, 10);
 
 -- --------------------------------------------------------
 
@@ -190,9 +183,9 @@ CREATE TABLE `product_items` (
 --
 
 INSERT INTO `product_items` (`item_id`, `item_name`, `price`, `quantity`, `catagory_id`) VALUES
-(27, ' Rotary Nozzle', '1300', 10, 100002),
+(27, ' Rotary Nozzle', '13000', 10, 100002),
 (36, 'Valve Seat', '750', 2, 100013),
-(40, 'Power Nozzle', '1755', 1, 100002),
+(40, 'Power Nozzle', '17500', 1, 0),
 (42, 'Vacuum Bag', '750', 1, 100014),
 (44, 'Vc Flat Filter', '1100', 1, 100014),
 (45, 'WD Vacuum Filter ', '800', 1, 100012),
@@ -203,8 +196,9 @@ INSERT INTO `product_items` (`item_id`, `item_name`, `price`, `quantity`, `catag
 (50, 'Slotted Hex Washer', '40', 1, 100008),
 (51, 'Valve Seat', '750', 5, 100003),
 (52, 'Vacuum Brush', '450', 1, 100010),
+(53, 'Pump adapter ', '150', 1, 0),
 (54, 'Valve Seat', '750', 1, 100003),
-(55, 'Vacuum Short Hose', '950', 1, 100004);
+(55, '8gg', '900', 100, 100013);
 
 -- --------------------------------------------------------
 
@@ -241,7 +235,7 @@ CREATE TABLE `service_orders` (
 
 INSERT INTO `service_orders` (`service_order_no`, `customer_id`, `order_date`, `serial_no`, `accessories`, `remarks`, `machine_id`, `status`, `completed_date`) VALUES
 (870989019, '6', '2020-08-31', '40001', 'Hose,hose', 'Hose Damage', 100002, 4, '0000-00-00'),
-(870989023, '11', '2020-09-02', '6790420', 'power nozzle, filter', 'Nozzle without hose', 100002, 1, '0000-00-00'),
+(870989023, '11', '2020-09-02', '6790420', 'power nozzle, filter', 'Nozzle without hose', 100002, 2, '0000-00-00'),
 (870989024, '7', '2020-09-07', '200053', 'filter', 'hose damage', 100001, 4, '2020-09-28'),
 (870989029, '10', '2020-09-16', '50001', 'test', 'testing', 100002, 4, '0000-00-00'),
 (870989037, '11', '2020-09-22', '10002', 'hose', 'hose damage', 100001, 1, '0000-00-00'),
@@ -296,13 +290,7 @@ ALTER TABLE `estimate_data`
 -- Indexes for table `estimate_items`
 --
 ALTER TABLE `estimate_items`
-  ADD PRIMARY KEY (`estimate_id`);
-
---
--- Indexes for table `invoice`
---
-ALTER TABLE `invoice`
-  ADD PRIMARY KEY (`invoice_no`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `machine_models`
@@ -355,19 +343,19 @@ ALTER TABLE `customer`
 -- AUTO_INCREMENT for table `estimate_data`
 --
 ALTER TABLE `estimate_data`
-  MODIFY `estimate_id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=119;
+  MODIFY `estimate_id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=156;
 
 --
--- AUTO_INCREMENT for table `invoice`
+-- AUTO_INCREMENT for table `estimate_items`
 --
-ALTER TABLE `invoice`
-  MODIFY `invoice_no` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `estimate_items`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `product_items`
 --
 ALTER TABLE `product_items`
-  MODIFY `item_id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+  MODIFY `item_id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT for table `service_orders`
