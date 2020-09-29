@@ -60,3 +60,7 @@ button.buttons-copy h5{
 
     font-weight: bold
 }
+
+.pull-right{
+    float: right;
+}

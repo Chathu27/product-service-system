@@ -230,6 +230,7 @@
                   <td>`+output.data[i].price+`</td> 
 
                   <td>`+total+`</td>
+                  <td><button class="add_btn" data-id="`+i+`">Add</button></td>
 
                 </tr>`);
 
@@ -255,6 +256,12 @@
          return(false);
     } 
 
+
+    
+    $('html').click(".add_btn", function(event) {
+      /* Act on the event */
+      alert();
+    });
 
 
     /* Validate Form */

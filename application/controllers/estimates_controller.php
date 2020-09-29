@@ -39,18 +39,22 @@ class estimates_controller extends CI_Controller {
  
 
 		$result = $this->estimates_model->insert_estimate_data($estimate_data); 
+		$estimated_id = $result["estimated_id"];
 
-		// print_r($result);
-
-		$estimate_items = array( 
-			'estimate_id' => $result["estimated_id"],
-			'item_id' => $this->input->post('item_id'),
-			'quantity' => $this->input->post('quantity'),
-
-		);
+		$item = $this->input->post('item_data');
 
 
- 		$result = $this->estimates_model->insert_estimate_items($estimate_items);
+		for ($i=0; $i < sizeof($item) ; $i++) { 
+
+		 	$estimate_items = array( 
+				'estimate_id' => $estimated_id,
+				'item_id' => $item[$i]["item_id"],
+				'quantity' => $item[$i]["quantity"],
+
+			);
+		 	
+		 	$this->estimates_model->insert_estimate_items($estimate_items); 
+ 		}
 
  
  		$data_vals = array(
@@ -62,11 +66,9 @@ class estimates_controller extends CI_Controller {
 			'values' => $this->set_update_values($data_vals), 
 		);
 
-		$result = $this->estimates_model->update_customer_status($update_val);
+		$result_status = $this->estimates_model->update_customer_status($update_val);
 
- 		
-
-		$set_json_output = json_encode($result,JSON_PRETTY_PRINT); 
+		$set_json_output = json_encode($result_status,JSON_PRETTY_PRINT); 
 		$output =  $this->output->set_output($set_json_output);
 
 
