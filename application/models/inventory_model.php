@@ -110,9 +110,10 @@ public function insert_item_data($data){
 		}
 	}
 
-		public function get_item_id_name(){
+		public function get_single_item_id($data){
 
-	 	$select_query = "SELECT item_id, item_name,price FROM product_items"; 
+	 	$select_query = "SELECT item_id, item_name,price,quantity,catagory_id FROM product_items WHERE `item_id`=".$data['item_id'].""; 
+	 	
 
 		$query = $this->db->query($select_query);
  
@@ -134,6 +135,36 @@ public function insert_item_data($data){
 
 			return $output;  
 		}
+	}
+
+	public function update_items($data){
+    
+		$update_query =  "UPDATE `product_items` SET ".$data['values']." WHERE item_id='".$data['item_id']."'" ;
+
+
+        $query = $this->db->query($update_query); 
+
+
+		if ($query) {
+
+			$output = array(
+				'status' => 200,  
+				'message' => "Data Updated Successfully", 
+			);
+
+			return $output;
+			 
+
+		}else{
+
+			$output = array(
+				'status' => 404,  
+				'message' => "Data Update Faild", 
+			);
+
+			return $output;  
+		}
+ 
 	}
 
 }

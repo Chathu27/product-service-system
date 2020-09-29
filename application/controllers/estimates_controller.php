@@ -142,7 +142,8 @@ class estimates_controller extends CI_Controller {
 
 
  		$data_vals = array(
-			'status' => $this->input->post('status'),      
+			'status' => $this->input->post('status'),
+			'completed_date' => $this->input->post('completed_date'),    
 		);
 
 		$update_val = array(

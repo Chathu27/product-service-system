@@ -424,7 +424,6 @@
        if (output.status == 200) { 
          $('.alert-success').removeClass('d-none'); 
         window.scroll(0, 0)
-         $('#myform')[0].reset();
         }
 
       })

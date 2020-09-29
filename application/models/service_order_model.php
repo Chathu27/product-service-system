@@ -77,7 +77,7 @@ public function insert_service_order_data($data){
 
 		public function get_all_order_details_by_id($data){
 
-	 	$select_query = "SELECT so.*, c.customer_id, c.first_name, c.last_name, c.contact_no, m.machine_model FROM service_orders As so, customer As c, machine_models As m WHERE c.customer_id = so.customer_id AND m.machine_id = so.machine_id AND so.`service_order_no`='".$data['service_order_no']."' ";
+	 	$select_query = "SELECT so.*, c.customer_id, c.first_name, c.last_name, c.contact_no,c.addr, m.machine_model FROM service_orders As so, customer As c, machine_models As m WHERE c.customer_id = so.customer_id AND m.machine_id = so.machine_id AND so.`service_order_no`='".$data['service_order_no']."' ";
 
 		$query = $this->db->query($select_query);
 		$results = $query->result();

@@ -181,7 +181,7 @@ public function __construct(){
 	public function update_estimate_items($data){
     
 		$update_query =  "UPDATE `estimate_items` SET ".$data['values']." WHERE estimate_id='".$data['estimate_id']."'" ;
-print_r($update_query);
+// print_r($update_query);
 
         $query = $this->db->query($update_query); 
 

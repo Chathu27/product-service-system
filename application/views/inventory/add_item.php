@@ -62,12 +62,12 @@
                       <label for="name">Price</label>
                       <input type="text" class="form-control" id="price" name="price">
                     </div> 
-                    <div class="form-group col-md-4">
+                    <div class="form-group col-md-4 d-none">
                       <label for="name">Quantity</label>
-                      <input type="number" class="form-control" name="quantity" id="quantity">
+                      <input type="number" class="form-control" name="quantity" value="100" id="quantity">
                     </div>
                   </div> 
-                  <button type="submit" class="btn btn-primary" id="login_btn"name="add">Add item</button> 
+                  <button type="submit" class="btn btn-primary" id="login_btn"name="add">Add item</button>
                 </form>
               </div>
             </div>
@@ -87,8 +87,7 @@
                                     <th scope="col">ID</th>
                                     <th scope="col">Name</th>
                                     <th scope="col">Price</th>
-                                    <th scope="col">Quantity</th>
-                                    <th scope="col">Quantity</th>
+                                    <th scope="col"></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -212,6 +211,7 @@
                 $('.alert-success').removeClass('d-none'); 
                 window.scroll(0, 0)
                 $('#myform')[0].reset();
+                location.reload();
               }
 
             })
@@ -231,6 +231,8 @@
 
               var output = JSON.parse(data);
               console.log(output);
+
+
          
               if (output.status == 200) {  
 
@@ -246,12 +248,15 @@
                   <td>`+output.data[i].item_name+`</td> 
                   <td>`+output.data[i].price+`</td> 
 
-                  <td>`+output.data[i].quantity+`</td>
+                  
 
                   <td>  
 
                     <a href="javascript:void(0)" data-id="`+output.data[i].item_id+`" class="delete_item"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete
                     </a> 
+                    <a href="`+app_url+`index.php/inventory_controller/edit_item/?item_id=`+output.data[i].item_id+`" class="edit_item"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit
+                    </a>
+                     
 
 
                   </td>
