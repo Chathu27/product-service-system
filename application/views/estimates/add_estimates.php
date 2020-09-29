@@ -94,54 +94,32 @@
                   </div>
 
                 </div>
-                <div class="form-group table-responsive">
-                      <table class="table" id="estimate_table">
-                          <thead>
-                              <tr>
-                                <th>Item code</th>
-                                <th>Item Name</th> 
-                                <th>Quantity</th>
-                                <th>Item Value</th>
-                                <th>Total</th>
-                                <th></th> 
-                              </tr>
-                          </thead>
-                          <tbody>
-
-                           <tr>
-                            <td>
-                              <input class="form-control" name="item_id" id="item_id">
-                            </td>
-                            <td>
-                              <select class="form-control" name="item_name" id="item_name"></select>
-                            </td>
-                            <td>
-                              <input class="form-control" name="quantity" id="quantity">
-                            </td>
-                            <td>
-                              <input class="form-control" name="price" id="price">
-                            </td>
-                            <td>
-                              <input class="form-control" name="total" id="total">
-                            </td>
-                          </tr> 
-<!-- 
+                <div class="row">
+                  <div class="col-md-6"><h3>Item List</h3></div> 
+                  <div class="col-md-6"><button class="btn btn-primary add_btn pull-right">Add Item</button></div>
+                </div> <br/> 
+                <div class="form-group table-responsive">  
+                  <table class="table" id="estimate_table">
+                      <thead>
                           <tr>
-                            <td><textarea name="item_code" id="item_code" cols="20" rows="1"></textarea></td>
-                            <td><textarea name="item_name" id="item_name" cols="20" rows="1"></textarea></td>
-                            <td><textarea name="price" id="price" cols="20" rows="1"></textarea></td>
-                            <td><textarea name="quantity" id="quantity" cols="20" rows="1"></textarea></td>
-                            <td><textarea name="total" id="total" cols="20" rows="1"></textarea></td>
-                          </tr>  -->
+                            <th>Item code</th>
+                            <th>Item Name</th> 
+                            <th>Quantity</th>
+                            <th>Item Value</th>
+                            <th>Total</th>
+                            <th></th> 
+                          </tr>
+                      </thead>
+                      <tbody> 
 
-                          </tbody>
-                      </table>
+                      </tbody>
+                  </table>
 
                 </div>
 
          
                  
-                  <button type="submit" class="btn btn-primary" id="login_btn">Save Estimate</button>
+                  <button type="submit" class="btn btn-primary" >Save Estimate</button>
 
                   <a href="<?php echo base_url(); ?>index.php/home_controller/" class="btn btn-secondary">Cancel</a> 
                
@@ -174,56 +152,48 @@
      var item_id = 0;
      var quantity = 0;
      var total = 0;
+     var countId = 0;
+     var item_data = []
 
    /*get item codes*/
 
-    $.ajax({
-        url: '<?php echo base_url(); ?>index.php/inventory_controller/get_all_item_data',
-        type: 'POST',  
-      })
-      .done(function(data) {
-
-        var output = JSON.parse(data);
-        console.log(output);
-         
-        if (output.status == 200) {  
-
-          $('#item_name').append('<option value="default">Select item name</option>') 
-
-          for (var i = 0; i < output.data.length; i++) {
-
-            $('#item_name').append('<option data-price="'+output.data[i].price+'" data-item_id="'+output.data[i].item_id+'" data-total="'+output.data[i].total+'"value='+output.data[i].item_name+'>'+output.data[i].item_name+'</option>') 
-          }  
-        }
-
-      })
-
-      .fail(function() {
-        console.log("error");
-      });
+    
 
 
-       $('#item_name').change(function(event) {
+       $('html').on("change", ".item_name", function(event) {
          /* Act on the event */
-
+         
+         var id = $(this).attr("data-id")
          price = $('option:selected', this).attr("data-price");
-         item_id = $('option:selected', this).attr("data-item_id");  
+         item_id = $('option:selected', this).attr("data-item_id");    
+          $('html .select_quantity'+id).val(1);
+          $('html .price'+id).val(price);
+          $('html .item_id'+id).val(item_id);
 
-       //  console.log(total, quantity, price) 
-       
-          $('#price').val(price);
-          $('#item_id').val(item_id);
+          total = 1 * parseInt(price);  
+          $('html .total'+id).val(total);
+
+          var item = { 
+            item_id: item_id,
+            quantity: 1,   
+          }
+
+          item_data.push(item);
  
        });
 
-       $('#quantity').change(function(event) {
+       $('html').on("change", ".quantity", function(event) {
           event.preventDefault();
+          var id = $(this).attr("data-id")
+          quantity =  $('html .select_quantity'+id).val();
+          total = parseInt(quantity)* parseInt(price);  
+          $('html .total'+id).val(total);
 
-          quantity =  $('#quantity').val();
-          total = parseInt(quantity)* parseInt(price); 
 
-            console.log(total, parseInt(quantity), parseInt(price) ) 
-          $('#total').val(total);
+          item_data[id].quantity = parseInt(quantity);
+
+          console.log(item_data)
+
        });
 
 /*--*/
@@ -251,6 +221,9 @@
         $('#serial_no').html(output.data.serial_no);
         $('#accessories').html(output.data.accessories);
         $('#remarks').html(output.data.remarks);
+
+        addRow(countId++);
+        getItem();
          
       }
 
@@ -263,6 +236,19 @@
     });
 
 
+    $("html").on("click", ".add_btn", function(event) {
+      /* Act on the event */
+      event.preventDefault();
+
+      addRow(countId++);
+      getItem();
+      
+
+    });
+
+
+    
+
 
       function getQueryVariable(variable){
          var query = window.location.search.substring(1);
@@ -274,6 +260,59 @@
          return(false);
     } 
 
+
+    function addRow(id){
+      $("html #estimate_table tbody").append(`
+            <tr>
+              <td>
+                <input class="form-control item_id`+id+`" name="item_id" disabled="disabled">
+              </td>
+              <td>
+                <select class="form-control item_name item_select`+id+`" data-id="`+id+`" name="item_name" ></select>
+              </td>
+              <td>
+                <input class="form-control quantity select_quantity`+id+`" data-id="`+id+`" name="quantity">
+              </td>
+              <td>
+                <input class="form-control price`+id+`" name="price" disabled="disabled">
+              </td>
+              <td>
+                <input class="form-control total`+id+`" name="total" disabled="disabled">
+              </td> 
+              <td>
+                <button class="add_btn`+id+`">Delete</button>
+              </td>
+            </tr>  
+        `)
+    }
+
+
+    function getItem(){
+      $.ajax({
+        url: '<?php echo base_url(); ?>index.php/inventory_controller/get_all_item_data',
+        type: 'POST',  
+      })
+      .done(function(data) {
+
+        var output = JSON.parse(data);
+        console.log(output);
+         
+        if (output.status == 200) {  
+
+          $('html .item_name').append('<option value="default">Select item name</option>') 
+
+          for (var i = 0; i < output.data.length; i++) {
+
+            $('html .item_name').append('<option data-price="'+output.data[i].price+'" data-item_id="'+output.data[i].item_id+'" data-total="'+output.data[i].total+'"value='+output.data[i].item_name+'>'+output.data[i].item_name+'</option>') 
+          }  
+        }
+
+      })
+
+      .fail(function() {
+        console.log("error");
+      });
+    }
 
 
     /* Validate Form */
@@ -314,8 +353,7 @@
             order_date: $('#order_date').val(),
             estimate_by: $('#estimate_by').val(), 
             remarks: $('#feed_back').val(),
-            item_id: $('#item_id').val(),
-            quantity: $('#quantity').val(),             
+            item_data: item_data,         
             }
  
             $.ajax({
