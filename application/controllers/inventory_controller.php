@@ -71,7 +71,7 @@ class inventory_controller extends CI_Controller {
 		$data = array
 		('item_id' => $this->input->post('item_id'));
 
-		$result = $this->inventory_model->get_item_id_name($data); 
+		$result = $this->inventory_model->get_single_item_id($data); 
 
 		$set_json_output = json_encode($result,JSON_PRETTY_PRINT); 
 		$output =  $this->output->set_output($set_json_output);

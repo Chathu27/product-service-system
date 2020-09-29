@@ -110,9 +110,10 @@ public function insert_item_data($data){
 		}
 	}
 
-		public function get_item_id_name(){
+		public function get_single_item_id($data){
 
-	 	$select_query = "SELECT item_id, item_name,price,quantity,catagory_id FROM product_items"; 
+	 	$select_query = "SELECT item_id, item_name,price,quantity,catagory_id FROM product_items WHERE `item_id`=".$data['item_id'].""; 
+	 	
 
 		$query = $this->db->query($select_query);
  

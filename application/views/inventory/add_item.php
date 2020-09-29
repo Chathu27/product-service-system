@@ -62,9 +62,9 @@
                       <label for="name">Price</label>
                       <input type="text" class="form-control" id="price" name="price">
                     </div> 
-                    <div class="form-group col-md-4">
+                    <div class="form-group col-md-4 d-none">
                       <label for="name">Quantity</label>
-                      <input type="number" class="form-control" name="quantity" id="quantity">
+                      <input type="number" class="form-control" name="quantity" value="100" id="quantity">
                     </div>
                   </div> 
                   <button type="submit" class="btn btn-primary" id="login_btn"name="add">Add item</button>
@@ -87,8 +87,7 @@
                                     <th scope="col">ID</th>
                                     <th scope="col">Name</th>
                                     <th scope="col">Price</th>
-                                    <th scope="col">Quantity</th>
-                                    <th scope="col">Quantity</th>
+                                    <th scope="col"></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -249,7 +248,7 @@
                   <td>`+output.data[i].item_name+`</td> 
                   <td>`+output.data[i].price+`</td> 
 
-                  <td>`+output.data[i].quantity+`</td>
+                  
 
                   <td>  
 

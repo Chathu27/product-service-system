@@ -36,7 +36,7 @@
           <div class="container">
 
             <div class="top-header">
-              <h2 class="h3 mb-2 text-gray-800">Add Item Here</h2> 
+              <h2 class="h3 mb-2 text-gray-800">Edit Item Here</h2> 
             </div>
 
             <div class="card shadow"> 
@@ -66,7 +66,7 @@
                       <label for="name">Price</label>
                       <input type="text" class="form-control" id="price" name="price">
                     </div> 
-                    <div class="form-group col-md-4">
+                    <div class="form-group col-md-4 d-none">
                       <label for="name">Quantity</label>
                       <input type="number" class="form-control" name="quantity" id="quantity">
                     </div>
