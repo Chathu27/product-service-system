@@ -340,63 +340,63 @@ function getItem(){
     }
 
 
-  // $('#item_name').change(function(event) {
-  //        /* Act on the event */
+  $('#item_name').change(function(event) {
+         /* Act on the event */
 
-  //        price = $('option:selected', this).attr("data-price");
-  //        item_id = $('option:selected', this).attr("data-item_id");  
+         price = $('option:selected', this).attr("data-price");
+         item_id = $('option:selected', this).attr("data-item_id");  
 
-  //      //  console.log(total, quantity, price) 
+       //  console.log(total, quantity, price) 
        
-  //         $('#price').val(price);
-  //         $('#item_id').val(item_id);
+          $('#price').val(price);
+          $('#item_id').val(item_id);
  
-  // });
+  });
 
-  // $('#quantity').change(function(event) {
+  $('#quantity').change(function(event) {
 
-  //         event.preventDefault();
+          event.preventDefault();
 
-  //         quantity =  $('#quantity').val();
-  //         total = parseInt(quantity)* parseInt(price); 
+          quantity =  $('#quantity').val();
+          total = parseInt(quantity)* parseInt(price); 
 
-  //         console.log(total, parseInt(quantity), parseInt(price) ) 
-  //         $('#total').val(total);
-  // });
+          console.log(total, parseInt(quantity), parseInt(price) ) 
+          $('#total').val(total);
+  });
 
 /*--*/
   
 
-  // $.ajax({
-  //           url: '<?php echo base_url(); ?>index.php/service_orders_controller/get_single_order_data',
-  //           type: 'POST', 
-  //           data: { service_order_no: getQueryVariable("service_order_no")},
-  //   })
-  //   .done(function(data) {
+  $.ajax({
+            url: '<?php echo base_url(); ?>index.php/service_orders_controller/get_single_order_data',
+            type: 'POST', 
+            data: { service_order_no: getQueryVariable("service_order_no")},
+    })
+    .done(function(data) {
       
-  //     var output = JSON.parse(data); 
+      var output = JSON.parse(data); 
 
-  //       if (output.status == 200) {
-  //         console.log(output);
+        if (output.status == 200) {
+          console.log(output);
 
-  //           $('#service_order_no').html(output.data.service_order_no);
-  //           $('#first_name').html(output.data.first_name); 
-  //           $('#last_name').html(output.data.last_name); 
-  //           $('#contact_no').html(output.data.contact_no);
-  //           $('#machine_model').html(output.data.machine_model);
-  //           $('#serial_no').html(output.data.serial_no);
-  //           $('#accessories').html(output.data.accessories);
-  //           $('#remarks').html(output.data.remarks);  
+            $('#service_order_no').html(output.data.service_order_no);
+            $('#first_name').html(output.data.first_name); 
+            $('#last_name').html(output.data.last_name); 
+            $('#contact_no').html(output.data.contact_no);
+            $('#machine_model').html(output.data.machine_model);
+            $('#serial_no').html(output.data.serial_no);
+            $('#accessories').html(output.data.accessories);
+            $('#remarks').html(output.data.remarks);  
 
-  //       }
+        }
 
-  //   })
-  //   .fail(function() {
-  //     console.log("error");
-  //   })
-  //   .always(function() {
-  //     console.log("complete");
-  //   });
+    })
+    .fail(function() {
+      console.log("error");
+    })
+    .always(function() {
+      console.log("complete");
+    });
 
 
   $.ajax({

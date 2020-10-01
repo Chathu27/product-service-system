@@ -120,6 +120,12 @@
         </div>
       </li>
 
+      <li class="nav-item">
+        <a class="nav-link" href="<?php echo base_url(); ?>index.php/reports_controller/reports">
+          <i class="fas fa-fw fa-table"></i>
+          <span>Tables</span></a>
+      </li>
+
 
 
 
