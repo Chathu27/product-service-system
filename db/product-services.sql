@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 29, 2020 at 09:42 PM
--- Server version: 10.4.14-MariaDB
--- PHP Version: 7.4.9
+-- Generation Time: Oct 01, 2020 at 03:48 PM
+-- Server version: 10.4.11-MariaDB
+-- PHP Version: 7.2.31
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -81,7 +81,8 @@ INSERT INTO `customer` (`customer_id`, `first_name`, `last_name`, `email_addr`, 
 (9, 'Shehan', 'Ranawaka', 'shehan1990@gmail.com', 'No:29/B,Kurukulawa,Ragama', '0785667223', '9877756454v'),
 (10, 'Suresh ', 'Ranjan', 'ranjan@gmail.com', 'No:34,Temple Road, Kelaniya', '0112456789', '645678978v'),
 (11, 'Dilukshi', 'Chethana', 'chethi1996/@gmail.com', 'No:85/B, Flower Road,Kandy', '0764333446', '665435245v'),
-(12, 'Chathu', 'Saduni', 'chathu@gmail.com', 'jkl', '2258', '58895');
+(12, 'Chathu', 'Saduni', 'chathu@gmail.com', 'jkl', '2258', '58895'),
+(13, 'Nayana', ' Ranathunga', 'nainiranathunga@gmail.com', 'No:245, Temple Rd, Kelaniya', '0724432524', '889076456v');
 
 -- --------------------------------------------------------
 
@@ -106,7 +107,17 @@ INSERT INTO `estimate_data` (`estimate_id`, `order_date`, `estimate_by`, `remark
 (116, '2020-09-23', 'Madawa', 'testing', 870989038),
 (117, '2020-09-24', 'Madawa', 'Valve problem', 870989019),
 (118, '2020-09-25', 'chathura ', 'hose damage', 870989024),
-(155, '2020-09-30', 'Ruwan', 'Not good', 870989023);
+(155, '2020-09-30', 'Ruwan', 'Not good', 870989023),
+(156, '2020-09-30', 'chathura', 'test1234', 870989037),
+(157, '2020-09-30', 'Madawa', 'test', 870989029),
+(158, '2020-09-30', '', '', 870989024),
+(159, '2020-09-30', '', '', 870989024),
+(160, '2020-09-30', '', '', 870989024),
+(161, '2020-09-30', '', '', 870989024),
+(162, '2020-09-30', '', '', 870989024),
+(163, '2020-09-30', '', '', 870989024),
+(164, '2020-09-30', '', '', 870989024),
+(165, '2020-09-30', '', '', 870989024);
 
 -- --------------------------------------------------------
 
@@ -133,7 +144,14 @@ INSERT INTO `estimate_items` (`id`, `estimate_id`, `item_id`, `quantity`) VALUES
 (5, 117, 36, 2),
 (23, 155, 44, 1),
 (24, 155, 42, 1),
-(25, 155, 48, 10);
+(25, 155, 48, 10),
+(26, 156, 27, 1),
+(27, 156, 27, 1),
+(28, 156, 27, 1),
+(29, 156, 27, 1),
+(30, 157, 44, 1),
+(31, 157, 27, 1),
+(32, 160, 27, 1);
 
 -- --------------------------------------------------------
 
@@ -235,11 +253,18 @@ CREATE TABLE `service_orders` (
 
 INSERT INTO `service_orders` (`service_order_no`, `customer_id`, `order_date`, `serial_no`, `accessories`, `remarks`, `machine_id`, `status`, `completed_date`) VALUES
 (870989019, '6', '2020-08-31', '40001', 'Hose,hose', 'Hose Damage', 100002, 4, '0000-00-00'),
-(870989023, '11', '2020-09-02', '6790420', 'power nozzle, filter', 'Nozzle without hose', 100002, 2, '0000-00-00'),
-(870989024, '7', '2020-09-07', '200053', 'filter', 'hose damage', 100001, 4, '2020-09-28'),
-(870989029, '10', '2020-09-16', '50001', 'test', 'testing', 100002, 4, '0000-00-00'),
-(870989037, '11', '2020-09-22', '10002', 'hose', 'hose damage', 100001, 1, '0000-00-00'),
-(870989038, '12', '2020-09-22', '10002', 'ljkljklj', 'ljkljkl', 100001, 2, '0000-00-00');
+(870989023, '11', '2020-09-02', '6790420', 'power nozzle, filter', 'Nozzle without hose', 100002, 1, '2020-09-30'),
+(870989024, '7', '2020-09-07', '200053', 'filter', 'hose damage', 100001, 2, '2020-09-28'),
+(870989029, '10', '2020-09-16', '50001', 'test', 'testing', 100002, 2, '0000-00-00'),
+(870989037, '11', '2020-09-22', '10002', 'hose', 'hose damage', 100001, 2, '0000-00-00'),
+(870989047, '10', '2020-10-01', '4000', 'Nozzle, Trigger Gun', 'Hose Damage, Without Filter', 100010, 1, '0000-00-00'),
+(870989048, '3', '2020-10-01', '10002', 'Flat filter, vacuum hose, filter bag', 'Machine service only', 100005, 1, '0000-00-00'),
+(870989049, '2', '2020-10-01', '50001', 'Machine only', 'Poor steam', 100011, 1, '0000-00-00'),
+(870989050, '6', '2020-10-01', '7000', 'Hose,Filter', 'Without Nozzle', 100002, 1, '0000-00-00'),
+(870989051, '12', '2020-10-01', '400089', 'Machine only', 'Housing Damage', 100003, 1, '0000-00-00'),
+(870989052, '13', '2020-10-01', '90877', 'Filter bag, Filter', 'Filter Damage', 100004, 1, '0000-00-00'),
+(870989053, '11', '2020-10-01', '78-89098', 'Brush,plug top', 'Brush damage', 100009, 1, '0000-00-00'),
+(870989054, '9', '2020-10-01', '400067', 'Filter damage, Floor Tool, Vacuum Hose', 'Without Filter Bag', 100012, 1, '0000-00-00');
 
 -- --------------------------------------------------------
 
@@ -337,19 +362,19 @@ ALTER TABLE `catagory`
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `estimate_data`
 --
 ALTER TABLE `estimate_data`
-  MODIFY `estimate_id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=156;
+  MODIFY `estimate_id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=166;
 
 --
 -- AUTO_INCREMENT for table `estimate_items`
 --
 ALTER TABLE `estimate_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `product_items`
@@ -361,7 +386,7 @@ ALTER TABLE `product_items`
 -- AUTO_INCREMENT for table `service_orders`
 --
 ALTER TABLE `service_orders`
-  MODIFY `service_order_no` int(225) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=870989039;
+  MODIFY `service_order_no` int(225) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=870989055;
 
 --
 -- AUTO_INCREMENT for table `user`
