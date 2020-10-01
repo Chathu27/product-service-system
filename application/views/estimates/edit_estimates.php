@@ -94,6 +94,11 @@
                   </div>
 
                 </div>
+
+                <div class="row">
+                  <div class="col-md-6"><h3>Item List</h3></div> 
+                  <div class="col-md-6"><button class="btn btn-primary add_btn pull-right">Add Item</button></div>
+                </div> <br/>
                 <div class="form-group table-responsive">
                       <table class="table" id="estimate_table">
                           <thead>
@@ -125,17 +130,11 @@
                               <input class="form-control" name="total" id="total">
                             </td>
                           </tr> 
-<!-- 
-                          <tr>
-                            <td><textarea name="item_code" id="item_code" cols="20" rows="1"></textarea></td>
-                            <td><textarea name="item_name" id="item_name" cols="20" rows="1"></textarea></td>
-                            <td><textarea name="price" id="price" cols="20" rows="1"></textarea></td>
-                            <td><textarea name="quantity" id="quantity" cols="20" rows="1"></textarea></td>
-                            <td><textarea name="total" id="total" cols="20" rows="1"></textarea></td>
-                          </tr>  -->
 
                           </tbody>
                       </table>
+
+                       <h3>Total Amount : <span id="total_amount"></span></h3>
 
                 </div>
 
@@ -174,10 +173,146 @@
      var item_id = 0;
      var quantity = 0;
      var total = 0;
+     var countId = 0;
      var estimate_id = 0;
+     var total_amount = 0;
+     var total_amount_array = [];
 
    /*get item codes*/
 
+
+  $('html').on("change", ".item_name", function(event) {
+         /* Act on the event */
+         
+         var id = $(this).attr("data-id")
+         price = $('option:selected', this).attr("data-price");
+         item_id = $('option:selected', this).attr("data-item_id");    
+          $('html .select_quantity'+id).val(1);
+          $('html .price'+id).val(price);
+          $('html .item_id'+id).val(item_id);
+
+          total = 1 * parseInt(price);  
+          $('html .total'+id).val(total);
+
+          var item = { 
+            item_id: item_id,
+            quantity: 1,   
+          }
+
+          item_data.push(item);
+          total_amount_array.push(total)
+
+          $("#total_amount").html(total_amount_array.reduce(addFunc));
+            
+ 
+       });
+
+       $('html').on("change", ".quantity", function(event) {
+          event.preventDefault();
+          var id = $(this).attr("data-id")
+          quantity =  $('html .select_quantity'+id).val();
+          total = parseInt(quantity)* parseInt(price);
+
+          $('html .total'+id).val(total);
+
+
+
+          item_data[id].quantity = parseInt(quantity);
+          total_amount_array[id] = total 
+
+          $("#total_amount").html(total_amount_array.reduce(addFunc)); 
+
+       });
+
+      function addFunc(total, num) {
+        return total + num;
+      }
+
+    $.ajax({
+      url: '<?php echo base_url(); ?>index.php/service_orders_controller/get_single_order_data',
+        type: 'POST', 
+        data: { service_order_no: getQueryVariable("service_order_no")},
+    })
+    .done(function(data) {
+      
+      var output = JSON.parse(data); 
+     
+
+
+      if (output.status == 200) {
+          console.log(output);
+
+        $('#service_order_no').html(output.data.service_order_no);
+        $('#first_name').html(output.data.first_name); 
+        $('#last_name').html(output.data.last_name); 
+        $('#contact_no').html(output.data.contact_no);
+        $('#machine_model').html(output.data.machine_model);
+        $('#serial_no').html(output.data.serial_no);
+        $('#accessories').html(output.data.accessories);
+        $('#remarks').html(output.data.remarks);
+
+        addRow(countId++);
+        getItem();
+         
+      }
+
+    })
+    .fail(function() {
+      console.log("error");
+    })
+    .always(function() {
+      console.log("complete");
+    });
+
+    $("html").on("click", ".add_btn", function(event) {
+      /* Act on the event */
+      event.preventDefault();
+
+      addRow(countId++);
+      getItem();
+      
+
+    });
+
+ function getQueryVariable(variable){
+         var query = window.location.search.substring(1);
+         var vars = query.split("&");
+         for (var i=0;i<vars.length;i++) {
+              var pair = vars[i].split("=");
+        if(pair[0] == variable){return pair[1];}
+         }
+         return(false);
+    } 
+
+
+    function addRow(id){
+      $("html #estimate_table tbody").append(`
+            <tr>
+              <td>
+                <input class="form-control item_id`+id+`" name="item_id" disabled="disabled">
+              </td>
+              <td>
+                <select class="form-control item_name item_select`+id+`" data-id="`+id+`" name="item_name" ></select>
+              </td>
+              <td>
+                <input class="form-control quantity select_quantity`+id+`" data-id="`+id+`" name="quantity">
+              </td>
+              <td>
+                <input class="form-control price`+id+`" name="price" disabled="disabled">
+              </td>
+              <td>
+                <input class="form-control total`+id+`" name="total" disabled="disabled">
+              </td> 
+              <td>
+                <button class="add_btn`+id+`">Delete</button>
+              </td>
+            </tr>  
+        `)
+    }
+
+
+
+function getItem(){
   $.ajax({
         url: '<?php echo base_url(); ?>index.php/inventory_controller/get_all_item_data',
         type: 'POST',  
@@ -202,65 +337,66 @@
       .fail(function() {
         console.log("error");
       });
+    }
 
 
-  $('#item_name').change(function(event) {
-         /* Act on the event */
+  // $('#item_name').change(function(event) {
+  //        /* Act on the event */
 
-         price = $('option:selected', this).attr("data-price");
-         item_id = $('option:selected', this).attr("data-item_id");  
+  //        price = $('option:selected', this).attr("data-price");
+  //        item_id = $('option:selected', this).attr("data-item_id");  
 
-       //  console.log(total, quantity, price) 
+  //      //  console.log(total, quantity, price) 
        
-          $('#price').val(price);
-          $('#item_id').val(item_id);
+  //         $('#price').val(price);
+  //         $('#item_id').val(item_id);
  
-  });
+  // });
 
-  $('#quantity').change(function(event) {
+  // $('#quantity').change(function(event) {
 
-          event.preventDefault();
+  //         event.preventDefault();
 
-          quantity =  $('#quantity').val();
-          total = parseInt(quantity)* parseInt(price); 
+  //         quantity =  $('#quantity').val();
+  //         total = parseInt(quantity)* parseInt(price); 
 
-          console.log(total, parseInt(quantity), parseInt(price) ) 
-          $('#total').val(total);
-  });
+  //         console.log(total, parseInt(quantity), parseInt(price) ) 
+  //         $('#total').val(total);
+  // });
 
 /*--*/
   
 
-  $.ajax({
-            url: '<?php echo base_url(); ?>index.php/service_orders_controller/get_single_order_data',
-            type: 'POST', 
-            data: { service_order_no: getQueryVariable("service_order_no")},
-    })
-    .done(function(data) {
+  // $.ajax({
+  //           url: '<?php echo base_url(); ?>index.php/service_orders_controller/get_single_order_data',
+  //           type: 'POST', 
+  //           data: { service_order_no: getQueryVariable("service_order_no")},
+  //   })
+  //   .done(function(data) {
       
-      var output = JSON.parse(data); 
+  //     var output = JSON.parse(data); 
 
-        if (output.status == 200) {
-          console.log(output);
+  //       if (output.status == 200) {
+  //         console.log(output);
 
-            $('#service_order_no').html(output.data.service_order_no);
-            $('#first_name').html(output.data.first_name); 
-            $('#last_name').html(output.data.last_name); 
-            $('#contact_no').html(output.data.contact_no);
-            $('#machine_model').html(output.data.machine_model);
-            $('#serial_no').html(output.data.serial_no);
-            $('#accessories').html(output.data.accessories);
-            $('#remarks').html(output.data.remarks);  
+  //           $('#service_order_no').html(output.data.service_order_no);
+  //           $('#first_name').html(output.data.first_name); 
+  //           $('#last_name').html(output.data.last_name); 
+  //           $('#contact_no').html(output.data.contact_no);
+  //           $('#machine_model').html(output.data.machine_model);
+  //           $('#serial_no').html(output.data.serial_no);
+  //           $('#accessories').html(output.data.accessories);
+  //           $('#remarks').html(output.data.remarks);  
 
-        }
+  //       }
 
-    })
-    .fail(function() {
-      console.log("error");
-    })
-    .always(function() {
-      console.log("complete");
-    });
+  //   })
+  //   .fail(function() {
+  //     console.log("error");
+  //   })
+  //   .always(function() {
+  //     console.log("complete");
+  //   });
 
 
   $.ajax({
@@ -326,15 +462,15 @@
     });
 
 
-    function getQueryVariable(variable){
-         var query = window.location.search.substring(1);
-         var vars = query.split("&");
-         for (var i=0;i<vars.length;i++) {
-              var pair = vars[i].split("=");
-        if(pair[0] == variable){return pair[1];}
-         }
-         return(false);
-    } 
+  //   function getQueryVariable(variable){
+  //        var query = window.location.search.substring(1);
+  //        var vars = query.split("&");
+  //        for (var i=0;i<vars.length;i++) {
+  //             var pair = vars[i].split("=");
+  //       if(pair[0] == variable){return pair[1];}
+  //        }
+  //        return(false);
+  //   } 
 
 
 

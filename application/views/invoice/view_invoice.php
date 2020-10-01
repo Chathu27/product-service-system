@@ -80,6 +80,8 @@
   <!-- Bootstrap core JavaScript-->
   <?php $this->load->view('scripts');  ?>
 
+ 
+
 </body>
 
 </html>

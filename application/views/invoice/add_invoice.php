@@ -50,7 +50,7 @@
                 <strong>Success!</strong> Invoice data added successfully.
               </div> 
 
-             
+              <div id="printable_area">
                 <div class="row">
                   <div class="modal-body">
                     <ul>
@@ -98,10 +98,10 @@
                         </tbody>
                       </table>
                 </div>
-
+              </div>
          
                   <button type="submit" class="btn btn-primary" id="login_btn">Save Invoice</button>
-
+                  <button id="print" class="btn btn-primary">Print</button>
                   <a href="<?php echo base_url(); ?>index.php/home_controller/" class="btn btn-secondary">Cancel</a> 
                
                
@@ -121,13 +121,10 @@
 
 </html>
 <?php $this->load->view('scripts');  ?>
-
+  <script src="https://www.jqueryscript.net/demo/jQuery-Plugin-To-Print-Any-Part-Of-Your-Page-Print/jQuery.print.js"></script>
 <script>
 
-  $(document).ready(function () {  
-
-  
-
+  $(document).ready(function () {   
 
      var price = 0;
      var item_id = 0;
@@ -257,10 +254,7 @@
 
 
     
-    $('html').click(".add_btn", function(event) {
-      /* Act on the event */
-      alert();
-    });
+   
 
 
     /* Validate Form */
@@ -268,6 +262,12 @@
     $.validator.addMethod("valueNotEquals", function(value, element, arg){
       return arg !== value;
     }, "Please select an option.");
+
+
+     $("#print").click(function(event) {
+        event.preventDefault(); 
+        $.print("#printable_area"); 
+      });
 
       $('#myform').validate({ 
 

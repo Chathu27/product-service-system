@@ -107,6 +107,8 @@
                           </tbody>
                       </table>
 
+                      <h3>Total Amount : <span id="total_amount"></span></h3>
+
                 </div>
 
                 <?php 
@@ -233,6 +235,7 @@
      var item_id = 0;
      var quantity = 0;
      var total = 0;
+     var totalAmount = 0;
      var buttons="";
      var reject_btn="";
      var completed_date = shortDate;
@@ -479,6 +482,8 @@ $("#complete").click(function(){
           var price = (output.data[i].price);
           var total = parseInt(quantity)*parseInt(price);
 
+          totalAmount = totalAmount + total
+
 
     $('#estimate_table tbody').append(`
               <tr>
@@ -491,7 +496,10 @@ $("#complete").click(function(){
 
                 </tr>`);
 
-      }          
+      }     
+
+   
+      $("#total_amount").html(totalAmount)   
 
     })
     .fail(function() {
