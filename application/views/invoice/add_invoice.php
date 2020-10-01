@@ -47,13 +47,15 @@
 
               <div class="alert alert-success alert-dismissible d-none">
                 <button type="button" class="close" data-dismiss="alert">&times;</button>
-                <strong>Success!</strong> Invoice data added successfully.
+                <strong>Success!</strong> Invoice data generated successfully.
               </div> 
 
               <div id="printable_area">
                 <div class="row">
                   <div class="modal-body">
                     <ul>
+                      <li id="inv_data"><label for="service_order_no">Invoice No</label> <span id="inv_no"></span></li>
+
                       <li><label for="service_order_no">Service order no</label> <span id="service_order_no" name = "service_order_no"></span></li>
 
                       <li><label for="first_name">Customer</label> <span id="first_name"></span> <span id="last_name"></span></li>  
@@ -93,32 +95,15 @@
                                 <th></th> 
                               </tr>
                           </thead>
-                        <tbody>
-
-                           <tr>
-                            <td>
-                              <input class="form-control" name="item_id" id="item_id">
-                            </td>
-                            <td>
-                              <select class="form-control" name="item_name" id="item_name"></select>
-                            </td>
-                            <td>
-                              <input class="form-control" name="quantity" id="quantity">
-                            </td>
-                            <td>
-                              <input class="form-control" name="price" id="price">
-                            </td>
-                            <td>
-                              <input class="form-control" name="total" id="total">
-                            </td>
-                          </tr> 
+                        <tbody> 
 
                         </tbody>
                       </table>
                 </div>
+                <h3>Total Amount : <span id="total_amount">0</span></h3><br/>
               </div>
          
-                  <button type="submit" class="btn btn-primary" id="login_btn">Save Invoice</button>
+                  <button type="submit" class="btn btn-primary" id="create_invoice">Create Invoice</button>
                   <button id="print" class="btn btn-primary">Print</button>
                   <a href="<?php echo base_url(); ?>index.php/home_controller/" class="btn btn-secondary">Cancel</a> 
                
@@ -148,6 +133,15 @@
      var item_id = 0;
      var quantity = 0;
      var total = 0;
+     var item_data = []
+     var total_amount = 0;
+     var total_amount_array = [];
+     var invoice_data = {
+      service_order_no: "",
+      estimate_id: "",
+      invoice_date: "",
+      total: 0
+     }
 
    /*get item codes*/
 
@@ -162,8 +156,7 @@
     .done(function(data) {
       
       var output = JSON.parse(data); 
-     
-
+      
 
       if (output.status == 200) {
           console.log(output);
@@ -179,6 +172,23 @@
         $('#remarks').html(output.data.remarks);
         $('#completed_date').html(output.data.completed_date);
         $('#invoice_date').html(shortDate);
+       
+
+         if (getQueryVariable("inv_id")) { 
+          $('#inv_no').html( "#"+getQueryVariable("inv_id") );
+         }else{
+          $('#inv_data').hide();
+         }
+
+         if (output.data.inv_status == 1) {
+          $("#create_invoice").hide()
+          $('#invoice_date').html(output.data.inv_date); 
+         }
+
+        invoice_data.service_order_no = output.data.service_order_no
+        invoice_data.invoice_date = shortDate
+
+         
 
          
       }
@@ -204,7 +214,7 @@
     
       for (var i = 0; i < output.data.length; i++) {
         
-        
+          invoice_data.estimate_id = output.data[i].estimate_id;
           $('#estimate_id').html(output.data[i].estimate_id);
       }
           
@@ -226,17 +236,23 @@
     .done(function(data) {
       
       var output = JSON.parse(data); 
-     
-      console.log(output,"ppp");
+      
 
       for (var i = 0; i < output.data.length; i++) {
 
-          var quantity =  (output.data[i].quantity);
-          var price = (output.data[i].price);
-          var total = parseInt(quantity)*parseInt(price);
+        var quantity =  (output.data[i].quantity);
+        var price = (output.data[i].price);
+        var total = parseInt(quantity)*parseInt(price);
+
+      
+        total_amount_array.push(total) 
+
+        invoice_data.total = total_amount_array.reduce(addFunc)
+
+        $("#total_amount").html(invoice_data.total);
 
 
-    $('#invoice_table tbody').append(`
+        $('#invoice_table tbody').append(`
               <tr>
                   <td>`+output.data[i].item_id+`</td> 
                   <td>`+output.data[i].item_name+`</td> 
@@ -244,7 +260,7 @@
                   <td>`+output.data[i].price+`</td> 
 
                   <td>`+total+`</td>
-                  <td><button class="add_btn" data-id="`+i+`">Add</button></td>
+                  
 
                 </tr>`);
 
@@ -259,6 +275,9 @@
     });
 
 
+    function addFunc(total, num) {
+        return total + num;
+      }
 
       function getQueryVariable(variable){
          var query = window.location.search.substring(1);
@@ -287,65 +306,31 @@
         $.print("#printable_area"); 
       });
 
-      $('#myform').validate({ 
 
-          rules: {
-              // customer_id: {
-              // valueNotEquals: "default"  
+      $("#create_invoice").click(function(event) {
+        event.preventDefault();  
 
-              // },
-              // order_date: {
-              //     required: true, 
-              // },
-              // machine_id: {
-              //     required: true,
-              //     valueNotEquals: "default"
-              // },
-              // serial_no: {
-              //     required: true, 
-              // },
-              // accessories: {
-              //     required: true, 
-              // }, 
-              // remarks: {
-              //     required: true, 
-              // }, 
-          },
+        $.ajax({
+          url: '<?php echo base_url(); ?>index.php/invoice_controller/add_invoice_data',
+          type: 'POST', 
+          data: invoice_data,
+        })
+        .done(function(data) {
 
-      //     submitHandler: function(form) { 
-      
-      //       var data = {
-      //       service_order_no: getQueryVariable("service_order_no"), 
-      //       order_date: $('#order_date').val(),
-      //       estimate_by: $('#estimate_by').val(), 
-      //       remarks: $('#feed_back').val(),
-      //       item_id: $('#item_id').val(),
-      //       quantity: $('#quantity').val(),             
-      //       }
- 
-      //       $.ajax({
-      //         url: '<?php echo base_url(); ?>index.php/estimates_controller/add_estimate_data',
-      //         type: 'POST', 
-      //         data: data,
-      //       })
-      //       .done(function(data) {
-  
-      //         var output = JSON.parse(data);
-              
-      //         if (output.status == 200) { 
-      //           $('.alert-success').removeClass('d-none'); 
-      //           window.scroll(0, 0)
-      //           $('#myform')[0].reset();
-      //         }
+          var output = JSON.parse(data);
+          
+          if (output.status == 200) { 
+            $('.alert-success').removeClass('d-none'); 
+            window.scroll(0, 0) 
+          }
 
-      //       })
-      //       .fail(function() {
-      //         console.log("error");
-      //       }); 
-      
-      // }
-      });
+        })
+        .fail(function() {
+          console.log("error");
+        }); 
 
+
+      }); 
 
 
 

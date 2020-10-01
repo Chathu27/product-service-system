@@ -81,6 +81,21 @@ public function insert_service_order_data($data){
 
 		$query = $this->db->query($select_query);
 		$results = $query->result();
+
+
+		if ($results[0]->inv_status == "1") {
+
+			$select_query = "SELECT invoice_date FROM invoice WHERE service_order_no='". $results[0]->service_order_no ."' ";
+
+			$query = $this->db->query($select_query);
+			$result_date = $query->result()[0];
+ 
+
+			$results[0]->inv_date = $result_date->invoice_date;
+
+			 
+		}
+		  
  
 		if (sizeof($results) == 1) {
 

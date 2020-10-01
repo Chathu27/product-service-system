@@ -210,6 +210,37 @@ public function __construct(){
 
 
 
+	public function delete_estimate_items($data){
+   
+		$insert_query = "DELETE FROM `estimate_items` WHERE `estimate_id`=".$data['estimate_id']."";
+
+		$query = $this->db->query($insert_query); 
+
+		if ($query) {
+
+			$output = array(
+				'status' => 200,  
+				'message' => "Data Deleted Successfully", 
+			);
+
+			return $output;
+			 
+
+		}else{
+
+			$output = array(
+				'status' => 404,  
+				'message' => "Data Deletion Faild", 
+			);
+
+			return $output;  
+		}
+ 
+	}
+
+
+
+
 
 	public function update_customer_status($data){
     

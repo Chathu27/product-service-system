@@ -37,7 +37,7 @@ class inventory_controller extends CI_Controller {
   
 	}
 
-		public function get_all_item_data(){   
+	public function get_all_item_data(){   
 
 		$result = $this->inventory_model->get_all_item_details(); 
 

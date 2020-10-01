@@ -99,19 +99,37 @@ class estimates_controller extends CI_Controller {
 	}
 
 	public function edit_esimate_items(){  
+ 
+		$item = $this->input->post('item_data'); 
 
-		$item_vals = array( 
-			'item_id' => $this->input->post('item_id'),  
-			'quantity' => $this->input->post('quantity'),   
-		);
+		$this->delete_estimate_items();
 
-		$update_item_val = array(
-			'estimate_id' => $this->input->post('estimate_id'),
-			'values' => $this->set_update_values($item_vals), 
-		);
+		for ($i=0; $i < sizeof($item) ; $i++) { 
 
-		$result = $this->estimates_model->update_estimate_items($update_item_val); 
-		
+			$estimate_items = array( 
+				'estimate_id' => $this->input->post('estimate_id'),
+				'item_id' => $item[$i]["item_id"],
+				'quantity' => $item[$i]["quantity"],
+
+			);
+		 	
+		 	$result = $this->estimates_model->insert_estimate_items($estimate_items); 
+		 	 
+ 		} 
+ 
+		$set_json_output = json_encode($result,JSON_PRETTY_PRINT); 
+		$output =  $this->output->set_output($set_json_output);
+
+	 	return $output;
+  
+	}
+
+
+	public function delete_estimate_items(){  
+
+		$data = array('estimate_id' => $this->input->post('estimate_id'));
+
+		$result = $this->estimates_model->delete_estimate_items($data); 
 
 		$set_json_output = json_encode($result,JSON_PRETTY_PRINT); 
 		$output =  $this->output->set_output($set_json_output);

@@ -57,7 +57,7 @@ class service_orders_controller extends CI_Controller {
   
 	} 
 
-		public function get_single_order_data(){  
+	public function get_single_order_data(){  
 
 		$data = array
 		('service_order_no' => $this->input->post('service_order_no'));
@@ -71,7 +71,7 @@ class service_orders_controller extends CI_Controller {
   
 	}
 
-		public function edit_service_order_data(){  
+	public function edit_service_order_data(){  
 
 		$data_vals = array(
 			'customer_id' => $this->input->post('customer_id'),
