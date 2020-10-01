@@ -573,9 +573,6 @@ function getItem(){
       });
 
 
-
-
-
  });
 
 </script>

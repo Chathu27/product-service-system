@@ -95,6 +95,24 @@
                           </thead>
                         <tbody>
 
+                           <tr>
+                            <td>
+                              <input class="form-control" name="item_id" id="item_id">
+                            </td>
+                            <td>
+                              <select class="form-control" name="item_name" id="item_name"></select>
+                            </td>
+                            <td>
+                              <input class="form-control" name="quantity" id="quantity">
+                            </td>
+                            <td>
+                              <input class="form-control" name="price" id="price">
+                            </td>
+                            <td>
+                              <input class="form-control" name="total" id="total">
+                            </td>
+                          </tr> 
+
                         </tbody>
                       </table>
                 </div>
