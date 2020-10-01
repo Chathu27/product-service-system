@@ -64,3 +64,7 @@ button.buttons-copy h5{
 .pull-right{
     float: right;
 }
+.login_img{
+    background-image: url(../../assets/images/login.jpg);
+
+}  

@@ -50,7 +50,7 @@
                 <strong>Success!</strong> Service order added successfully.
               </div>  
 
-             
+              <div id="printable_area">
                 <div class="row">
 
                   <div class="form-group col-md-6">
@@ -91,12 +91,13 @@
                     <label for="remarks">Remarks</label>
                     <textarea type="text" name="remarks"  class="form-control" id="remarks" rows="6"></textarea>
                 </div>
+              </div>
          
                  
-                  <button type="submit" class="btn btn-primary" id="login_btn">Create Order</button>
-
+                  <button type="submit" class="btn btn-primary" id="login_btn">Create Order</button> 
                   <a href="<?php echo base_url(); ?>index.php/home_controller/" class="btn btn-secondary">Cancel</a> 
-               
+
+                  <button id="print" class="btn btn-primary">Print</button>
                
             </form>
                </div>
@@ -114,6 +115,7 @@
 
 </html>
 <?php $this->load->view('scripts');  ?>
+<script src="https://www.jqueryscript.net/demo/jQuery-Plugin-To-Print-Any-Part-Of-Your-Page-Print/jQuery.print.js"></script>
 <script>
   
   $(document).ready(function () {  
@@ -148,6 +150,9 @@
 
       /* Get customer*/
 
+
+
+
          $.ajax({
         url: '<?php echo base_url(); ?>index.php/customer_controller/get_all_customer_data',
         type: 'POST',  
@@ -179,6 +184,11 @@
     $.validator.addMethod("valueNotEquals", function(value, element, arg){
       return arg !== value;
     }, "Please select an option.");
+
+   $("#print").click(function(event) {
+        event.preventDefault(); 
+        $.print("#printable_area"); 
+      });
 
       $('#myform').validate({ 
 
@@ -231,7 +241,7 @@
               if (output.status == 200) { 
                 $('.alert-success').removeClass('d-none'); 
                 window.scroll(0, 0)
-                $('#myform')[0].reset();
+                
               }
 
             })

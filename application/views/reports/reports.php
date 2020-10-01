@@ -35,7 +35,7 @@
         <div class="container-fluid page">  
           <div class="container">
 
-            <h4 class="header-title">Added Items</h4>
+            <h4 class="header-title">Reports</h4>
 
              <div class="card shadow"> 
               <div class="card-body">    
@@ -44,10 +44,10 @@
                         <table class="table editable_table">
                             <thead class="text-uppercase">
                                 <tr class="table-active">
-                                    <th scope="col">Invoice NO</th>
-                                    <th scope="col">Date of Invoice</th>
-                                    <th scope="col">Estimate No</th>
-                                    <th scope="col">Total Value</th>
+                                    <th scope="col">-</th>
+                                    <th scope="col">-</th>
+                                    <th scope="col">-</th>
+                                    <th scope="col">-</th>
                                     <th scope="col"></th>
                                 </tr>
                             </thead>

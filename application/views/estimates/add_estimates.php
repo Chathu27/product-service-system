@@ -109,11 +109,15 @@
                             <th>Total</th>
                             <th></th> 
                           </tr>
+                          
                       </thead>
                       <tbody> 
 
                       </tbody>
                   </table>
+
+
+                    <h3>Total Amount : <span id="total_amount"></span></h3>
 
                 </div>
 
@@ -154,6 +158,8 @@
      var total = 0;
      var countId = 0;
      var item_data = []
+     var total_amount = 0;
+     var total_amount_array = [];
 
    /*get item codes*/
 
@@ -179,6 +185,10 @@
           }
 
           item_data.push(item);
+          total_amount_array.push(total)
+
+          $("#total_amount").html(total_amount_array.reduce(addFunc));
+            
  
        });
 
@@ -186,17 +196,24 @@
           event.preventDefault();
           var id = $(this).attr("data-id")
           quantity =  $('html .select_quantity'+id).val();
-          total = parseInt(quantity)* parseInt(price);  
+          total = parseInt(quantity)* parseInt(price);
+
           $('html .total'+id).val(total);
 
 
-          item_data[id].quantity = parseInt(quantity);
 
-          console.log(item_data)
+          item_data[id].quantity = parseInt(quantity);
+          total_amount_array[id] = total 
+
+          $("#total_amount").html(total_amount_array.reduce(addFunc)); 
 
        });
 
 /*--*/
+
+      function addFunc(total, num) {
+        return total + num;
+      }
   
 
     $.ajax({
@@ -369,6 +386,7 @@
                 $('.alert-success').removeClass('d-none'); 
                 window.scroll(0, 0)
                 $('#myform')[0].reset();
+                location.reload();
               }
 
             })

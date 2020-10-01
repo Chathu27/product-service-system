@@ -162,6 +162,7 @@
               if (output.status == 200) { 
                 $('.alert-success').removeClass('d-none'); 
                 $('#myform')[0].reset();
+                location.reload();
               }
 
             })
