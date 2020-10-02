@@ -143,9 +143,7 @@
       total: 0
      }
 
-   /*get item codes*/
-
-/*--*/
+   /*get item codes*/ 
   
 
     $.ajax({
@@ -187,9 +185,6 @@
 
         invoice_data.service_order_no = output.data.service_order_no
         invoice_data.invoice_date = shortDate
-
-         
-
          
       }
 

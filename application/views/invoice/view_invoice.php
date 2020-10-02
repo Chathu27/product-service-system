@@ -108,24 +108,26 @@
                   <td>`+output.data[i].remarks+`</td>
                   <td>`+output.data[i].total+`</td> 
 
-                  <td><a href="`+app_url+`index.php/invoice_controller/invoice/?service_order_no=`+output.data[i].service_order_no+`&inv_id=`+output.data[i].inv_id+`" class="edit_item"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit
+                  <td><a href="`+app_url+`index.php/invoice_controller/invoice/?service_order_no=`+output.data[i].service_order_no+`&inv_id=`+output.data[i].inv_id+`" class="edit_item"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> View
                     </a></td>
 
                 </tr>`);
 
 
-           $('table').DataTable({ 
-              dom: 'Bflrtip',
-              buttons: [
-                  {
-                    extend: 'copy',
-                    text: '<h5>Export Report to :</h5>'
-                }, 
-                'csv', 'excel', 'pdf', 'print'
-              ]
-            });
+           
 
       }     
+
+      $('table').DataTable({ 
+          dom: 'Bflrtip',
+          buttons: [
+              {
+                extend: 'copy',
+                text: '<h5>Export Report to :</h5>'
+            }, 
+            'csv', 'excel', 'pdf', 'print'
+          ]
+        });
 
     
 

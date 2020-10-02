@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 29, 2020 at 09:42 PM
+-- Generation Time: Oct 02, 2020 at 03:34 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.9
 
@@ -103,10 +103,12 @@ CREATE TABLE `estimate_data` (
 
 INSERT INTO `estimate_data` (`estimate_id`, `order_date`, `estimate_by`, `remarks`, `service_order_no`) VALUES
 (115, '2020-09-23', ' Ravudu', 'Hose Damage/nozzle Damage', 870989029),
-(116, '2020-09-23', 'Madawa', 'testing', 870989038),
+(116, '0000-00-00', 'Kamal', 'Difficult task', 870989038),
 (117, '2020-09-24', 'Madawa', 'Valve problem', 870989019),
 (118, '2020-09-25', 'chathura ', 'hose damage', 870989024),
-(155, '2020-09-30', 'Ruwan', 'Not good', 870989023);
+(155, '2020-09-30', 'Ruwan', 'Not good', 870989023),
+(156, '2020-10-01', 'Nipuna', 'Belt replacement on machine 2', 870989039),
+(157, '2020-09-03', 'Nipuna', 'Good job', 870989040);
 
 -- --------------------------------------------------------
 
@@ -129,11 +131,47 @@ INSERT INTO `estimate_items` (`id`, `estimate_id`, `item_id`, `quantity`) VALUES
 (1, 100, 45, 1),
 (2, 100, 55, 1),
 (3, 115, 27, 1),
-(4, 116, 36, 1),
-(5, 117, 36, 2),
-(23, 155, 44, 1),
-(24, 155, 42, 1),
-(25, 155, 48, 10);
+(30, 0, 45, 1),
+(31, 0, 44, 1),
+(40, 156, 44, 20),
+(41, 156, 51, 2),
+(42, 156, 45, 5),
+(43, 116, 42, 1),
+(44, 116, 55, 1),
+(45, 116, 27, 1),
+(46, 117, 36, 2),
+(47, 117, 54, 1),
+(48, 117, 27, 1),
+(49, 155, 44, 1),
+(50, 155, 42, 1),
+(51, 155, 48, 10),
+(52, 157, 45, 1),
+(53, 157, 42, 10),
+(54, 157, 27, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `invoice`
+--
+
+CREATE TABLE `invoice` (
+  `inv_id` int(11) NOT NULL,
+  `service_order_no` varchar(50) NOT NULL,
+  `estimate_id` varchar(50) NOT NULL,
+  `invoice_date` date NOT NULL,
+  `total` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `invoice`
+--
+
+INSERT INTO `invoice` (`inv_id`, `service_order_no`, `estimate_id`, `invoice_date`, `total`) VALUES
+(1, '870989019', '117', '2020-10-02', 15250),
+(2, '870989029', '115', '2020-10-02', 13000),
+(5, '870989023', '155', '2020-10-02', 2100),
+(6, '870989040', '157', '2020-09-05', 21300);
 
 -- --------------------------------------------------------
 
@@ -226,20 +264,23 @@ CREATE TABLE `service_orders` (
   `remarks` varchar(225) NOT NULL,
   `machine_id` int(11) NOT NULL,
   `status` int(11) NOT NULL,
-  `completed_date` date NOT NULL
+  `completed_date` date NOT NULL,
+  `inv_status` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `service_orders`
 --
 
-INSERT INTO `service_orders` (`service_order_no`, `customer_id`, `order_date`, `serial_no`, `accessories`, `remarks`, `machine_id`, `status`, `completed_date`) VALUES
-(870989019, '6', '2020-08-31', '40001', 'Hose,hose', 'Hose Damage', 100002, 4, '0000-00-00'),
-(870989023, '11', '2020-09-02', '6790420', 'power nozzle, filter', 'Nozzle without hose', 100002, 2, '0000-00-00'),
-(870989024, '7', '2020-09-07', '200053', 'filter', 'hose damage', 100001, 4, '2020-09-28'),
-(870989029, '10', '2020-09-16', '50001', 'test', 'testing', 100002, 4, '0000-00-00'),
-(870989037, '11', '2020-09-22', '10002', 'hose', 'hose damage', 100001, 1, '0000-00-00'),
-(870989038, '12', '2020-09-22', '10002', 'ljkljklj', 'ljkljkl', 100001, 2, '0000-00-00');
+INSERT INTO `service_orders` (`service_order_no`, `customer_id`, `order_date`, `serial_no`, `accessories`, `remarks`, `machine_id`, `status`, `completed_date`, `inv_status`) VALUES
+(870989019, '6', '2020-08-31', '40001', 'Hose,hose', 'Hose Damage', 100002, 4, '2020-10-01', 1),
+(870989023, '11', '2020-10-02', '6790420', 'power nozzle, filter', 'Nozzle without hose', 100002, 4, '2020-10-02', 1),
+(870989024, '7', '2020-09-07', '200053', 'filter', 'hose damage', 100001, 6, '0000-00-00', 0),
+(870989029, '10', '2020-09-16', '50001', 'test', 'testing', 100002, 4, '0000-00-00', 0),
+(870989037, '11', '2020-09-22', '10002', 'hose', 'hose damage', 100001, 1, '0000-00-00', 0),
+(870989038, '12', '2020-09-22', '10002', 'ljkljklj', 'ljkljkl', 100001, 5, '0000-00-00', 0),
+(870989039, '12', '2020-10-01', '900054', 'Belt replacement', 'Belt replacement', 100008, 2, '0000-00-00', 0),
+(870989040, '11', '2020-09-02', '456454', 'Test Test ', 'Test Test Test Test ', 100012, 4, '2020-09-05', 1);
 
 -- --------------------------------------------------------
 
@@ -293,6 +334,12 @@ ALTER TABLE `estimate_items`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `invoice`
+--
+ALTER TABLE `invoice`
+  ADD PRIMARY KEY (`inv_id`);
+
+--
 -- Indexes for table `machine_models`
 --
 ALTER TABLE `machine_models`
@@ -343,13 +390,19 @@ ALTER TABLE `customer`
 -- AUTO_INCREMENT for table `estimate_data`
 --
 ALTER TABLE `estimate_data`
-  MODIFY `estimate_id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=156;
+  MODIFY `estimate_id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=158;
 
 --
 -- AUTO_INCREMENT for table `estimate_items`
 --
 ALTER TABLE `estimate_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+
+--
+-- AUTO_INCREMENT for table `invoice`
+--
+ALTER TABLE `invoice`
+  MODIFY `inv_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `product_items`
@@ -361,7 +414,7 @@ ALTER TABLE `product_items`
 -- AUTO_INCREMENT for table `service_orders`
 --
 ALTER TABLE `service_orders`
-  MODIFY `service_order_no` int(225) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=870989039;
+  MODIFY `service_order_no` int(225) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=870989041;
 
 --
 -- AUTO_INCREMENT for table `user`

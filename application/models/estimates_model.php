@@ -149,7 +149,7 @@ public function __construct(){
 
 	public function update_estimate_data($data){
     
-		$update_query =  "UPDATE `estimate_data` SET ".$data['values']." WHERE service_order_no='".$data['service_order_no']."'" ;
+		$update_query =  "UPDATE `estimate_data1` SET ".$data['values']." WHERE service_order_no='".$data['service_order_no']."'" ;
 
 
         $query = $this->db->query($update_query); 
