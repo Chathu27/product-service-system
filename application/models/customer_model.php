@@ -182,8 +182,7 @@ class customer_model extends CI_Model {
    
 		$insert_query = "DELETE FROM `customer` WHERE `customer_id`=".$data['customer_id']."";
 
-		$query = $this->db->query($insert_query);
-		print_r($insert_query);
+		$query = $this->db->query($insert_query); 
 
 		if ($query) {
 

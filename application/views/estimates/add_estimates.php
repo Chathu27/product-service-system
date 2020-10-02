@@ -162,9 +162,7 @@
      var total_amount_array = [];
 
    /*get item codes*/
-
-    
-
+ 
 
        $('html').on("change", ".item_name", function(event) {
          /* Act on the event */
@@ -178,14 +176,23 @@
 
           total = 1 * parseInt(price);  
           $('html .total'+id).val(total);
+  
+          if(item_data.length <= parseInt(id)){
 
-          var item = { 
-            item_id: item_id,
-            quantity: 1,   
+            var item = { 
+              item_id: item_id,
+              quantity: 1,   
+            }
+
+            item_data.push(item);
+            total_amount_array.push(total)
+
+          }else{
+            item_data[id].quantity = 1 
+            item_data[id].item_id = item_id 
+            total_amount_array[id] = total 
           }
-
-          item_data.push(item);
-          total_amount_array.push(total)
+ 
 
           $("#total_amount").html(total_amount_array.reduce(addFunc));
             
@@ -253,18 +260,41 @@
     });
 
 
-    $("html").on("click", ".add_btn", function(event) {
-      /* Act on the event */
+    $("html").on("click", ".add_btn", function(event) { 
       event.preventDefault();
 
       addRow(countId++);
-      getItem();
-      
+      getItem(); 
 
     });
 
 
+     $("html").on("click", ".delete_btn", function(event) { 
+      event.preventDefault();
+
+      var id = $(this).attr("data-id")
+      
+      item_data.splice(id, 1);
+      total_amount_array.splice(id, 1);
+
+        var index = item_data.indexOf(id);
+        var index1 = total_amount_array.indexOf(id);
+
+        if (index > -1) {
+          item_data.splice(index, 1);
+        }
+
+        if (index1 > -1) {
+          total_amount_array.splice(index1, 1);
+        }
+       
+ 
+    });
+
+
     
+
+        
 
 
       function getQueryVariable(variable){
@@ -297,7 +327,7 @@
                 <input class="form-control total`+id+`" name="total" disabled="disabled">
               </td> 
               <td>
-                <button class="add_btn`+id+`">Delete</button>
+                <button class="btn btn-danger delete_btn delete_btn`+id+`" data-id="`+id+`">Delete</button>
               </td>
             </tr>  
         `)

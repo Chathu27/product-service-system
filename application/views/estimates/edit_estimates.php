@@ -47,7 +47,7 @@
 
               <div class="alert alert-success alert-dismissible d-none">
                 <button type="button" class="close" data-dismiss="alert">&times;</button>
-                <strong>Success!</strong> Estimate details added successfully.
+                <strong>Success!</strong> Estimate details edited successfully.
               </div> 
 
              
@@ -112,24 +112,7 @@
                               </tr>
                           </thead>
                           <tbody>
-
-                           <tr>
-                            <td>
-                              <input class="form-control" name="item_id" id="item_id">
-                            </td>
-                            <td>
-                              <select class="form-control" name="item_name" id="item_name"></select>
-                            </td>
-                            <td>
-                              <input class="form-control" name="quantity" id="quantity">
-                            </td>
-                            <td>
-                              <input class="form-control" name="price" id="price">
-                            </td>
-                            <td>
-                              <input class="form-control" name="total" id="total">
-                            </td>
-                          </tr> 
+ 
 
                           </tbody>
                       </table>
@@ -175,6 +158,7 @@
      var total = 0;
      var countId = 0;
      var estimate_id = 0;
+     var item_data = []
      var total_amount = 0;
      var total_amount_array = [];
 
@@ -193,15 +177,23 @@
 
           total = 1 * parseInt(price);  
           $('html .total'+id).val(total);
+  
+          if(item_data.length <= parseInt(id)){
 
-          var item = { 
-            item_id: item_id,
-            quantity: 1,   
+            var item = { 
+              item_id: item_id,
+              quantity: 1,   
+            }
+
+            item_data.push(item);
+            total_amount_array.push(total) 
+
+          }else{
+            item_data[id].quantity = 1 
+            item_data[id].item_id = item_id 
+            total_amount_array[id] = total 
           }
-
-          item_data.push(item);
-          total_amount_array.push(total)
-
+  
           $("#total_amount").html(total_amount_array.reduce(addFunc));
             
  
@@ -236,9 +228,7 @@
     .done(function(data) {
       
       var output = JSON.parse(data); 
-     
-
-
+      
       if (output.status == 200) {
           console.log(output);
 
@@ -250,9 +240,9 @@
         $('#serial_no').html(output.data.serial_no);
         $('#accessories').html(output.data.accessories);
         $('#remarks').html(output.data.remarks);
+  
 
-        addRow(countId++);
-        getItem();
+        getEstimateItemData();
          
       }
 
@@ -267,11 +257,36 @@
     $("html").on("click", ".add_btn", function(event) {
       /* Act on the event */
       event.preventDefault();
-
+      countId = item_data.length;
       addRow(countId++);
       getItem();
       
 
+    });
+
+
+    $("html").on("click", ".delete_btn", function(event) { 
+      event.preventDefault();
+
+      var id = $(this).attr("data-id")
+      
+      item_data.splice(id, 1);
+      total_amount_array.splice(id, 1);
+
+        var index = item_data.indexOf(id);
+        var index1 = total_amount_array.indexOf(id);
+
+        if (index > -1) {
+          item_data.splice(index, 1);
+        }
+
+        if (index1 > -1) {
+          total_amount_array.splice(index1, 1);
+        }
+       
+
+
+      alert(id)
     });
 
  function getQueryVariable(variable){
@@ -304,7 +319,7 @@
                 <input class="form-control total`+id+`" name="total" disabled="disabled">
               </td> 
               <td>
-                <button class="add_btn`+id+`">Delete</button>
+                <button class="btn btn-danger delete_btn delete_btn`+id+`" data-id="`+id+`">Delete</button>
               </td>
             </tr>  
         `)
@@ -324,12 +339,41 @@ function getItem(){
          
         if (output.status == 200) {  
 
-          $('#item_name').append('<option value="default">Select item name</option>') 
+          $('.item_name').append('<option value="default">Select item name</option>') 
 
           for (var i = 0; i < output.data.length; i++) {
 
-            $('#item_name').append('<option data-price="'+output.data[i].price+'" data-item_id="'+output.data[i].item_id+'" data-total="'+output.data[i].total+'"value='+output.data[i].item_id+'>'+output.data[i].item_name+'</option>') 
+            $('.item_name').append('<option data-price="'+output.data[i].price+'" data-item_id="'+output.data[i].item_id+'" data-total="'+output.data[i].total+'"value='+output.data[i].item_id+'>'+output.data[i].item_name+'</option>') 
           }  
+        }
+
+      })
+
+      .fail(function() {
+        console.log("error");
+      });
+    }
+
+    function getItemSelect(index, selected_id){
+      $.ajax({
+        url: '<?php echo base_url(); ?>index.php/inventory_controller/get_all_item_data',
+        type: 'POST',  
+      })
+      .done(function(data) {
+
+        var output = JSON.parse(data);
+        console.log(output);
+         
+        if (output.status == 200) {  
+
+          $('.item_name').append('<option value="default">Select item name</option>') 
+
+          for (var i = 0; i < output.data.length; i++) {
+
+            $('.item_name').append('<option data-price="'+output.data[i].price+'" data-item_id="'+output.data[i].item_id+'" data-total="'+output.data[i].total+'"value='+output.data[i].item_id+'>'+output.data[i].item_name+'</option>') 
+          }  
+
+          $("html select.item_select"+index).val(selected_id);  
         }
 
       })
@@ -368,9 +412,9 @@ function getItem(){
   
 
   $.ajax({
-            url: '<?php echo base_url(); ?>index.php/service_orders_controller/get_single_order_data',
-            type: 'POST', 
-            data: { service_order_no: getQueryVariable("service_order_no")},
+      url: '<?php echo base_url(); ?>index.php/service_orders_controller/get_single_order_data',
+      type: 'POST', 
+      data: { service_order_no: getQueryVariable("service_order_no")},
     })
     .done(function(data) {
       
@@ -428,50 +472,77 @@ function getItem(){
       console.log("complete");
     });
 
-  $.ajax({
-            url: '<?php echo base_url(); ?>index.php/estimates_controller/get_single_estimate_item_data',
-            type: 'POST', 
-            data: { service_order_no: getQueryVariable("service_order_no")},
+
+  
+
+    function getEstimateItemData(){
+
+      $.ajax({
+          url: '<?php echo base_url(); ?>index.php/estimates_controller/get_single_estimate_item_data',
+          type: 'POST', 
+          data: { service_order_no: getQueryVariable("service_order_no")},
+      })
+        .done(function(data) {
+          
+          var output = JSON.parse(data); 
+         
+          console.log(output, 12121);
+
+
+            for (var i = 0; i < output.data.length; i++) {
+
+              var quantity =  (output.data[i].quantity);
+              var price = (output.data[i].price);
+              var total = parseInt(quantity)*parseInt(price);
+ 
+              var item = { 
+                item_id: output.data[i].item_id,
+                quantity: parseInt(output.data[i].quantity),   
+              }
+
+              item_data.push(item); 
+              total_amount_array.push(total) 
+
+              var id = i;  
+
+              $("html #estimate_table tbody").append(`
+                <tr>
+                  <td>
+                    <input class="form-control item_id`+id+`" name="item_id" value="`+output.data[i].item_id+`" disabled="disabled">
+                  </td>
+                  <td>
+                    <select class="form-control item_name item_select`+id+`" data-id="`+id+`" name="item_name"></select>
+                  </td>
+                  <td>
+                    <input class="form-control quantity select_quantity`+id+`" data-id="`+id+`" name="quantity" value="`+output.data[i].quantity+`">
+                  </td>
+                  <td>
+                    <input class="form-control price`+id+`" name="price" value="`+output.data[i].price+`" disabled="disabled">
+                  </td>
+                  <td>
+                    <input class="form-control total`+id+`" name="total" value="`+total+`" disabled="disabled">
+                  </td> 
+                  <td>
+                    <button class="btn btn-danger delete_btn delete_btn`+id+`" data-id="`+id+`" >Delete</button>
+                  </td>
+                </tr>  
+            `)
+
+              getItemSelect(id, output.data[i].item_id); 
+
+            }  
+
+            $("#total_amount").html(total_amount_array.reduce(addFunc));
+                  
+
         })
-    .done(function(data) {
-      
-      var output = JSON.parse(data); 
-     
-      console.log(output);
-
-        for (var i = 0; i < output.data.length; i++) {
-
-          var quantity =  (output.data[i].quantity);
-          var price = (output.data[i].price);
-          var total = parseInt(quantity)*parseInt(price);
-
-          $('#item_id').val(output.data[i].item_id);
-          $('#item_name').val(output.data[i].item_id);
-          $('#quantity').val(output.data[i].quantity);
-          $('#price').val(output.data[i].price);
-          $('#total').val(total);
-
-        }          
-
-    })
-    .fail(function() {
-      console.log("error");
-    })
-    .always(function() {
-      console.log("complete");
-    });
-
-
-  //   function getQueryVariable(variable){
-  //        var query = window.location.search.substring(1);
-  //        var vars = query.split("&");
-  //        for (var i=0;i<vars.length;i++) {
-  //             var pair = vars[i].split("=");
-  //       if(pair[0] == variable){return pair[1];}
-  //        }
-  //        return(false);
-  //   } 
-
+        .fail(function() {
+          console.log("error");
+        })
+        .always(function() {
+          console.log("complete");
+        });
+    }
 
 
     /* Validate Form */
@@ -508,16 +579,13 @@ function getItem(){
           submitHandler: function(form) { 
       
             var data = {
-            service_order_no: getQueryVariable("service_order_no"), 
-            order_date: $('#order_date').val(),
-            estimate_by: $('#estimate_by').val(), 
-            remarks: $('#feed_back').val(),
-            item_id: $('#item_id').val(),
-            quantity: $('#quantity').val(),
-                         
+              service_order_no: getQueryVariable("service_order_no"), 
+              order_date: $('#order_date').val(),
+              estimate_by: $('#estimate_by').val(), 
+              remarks: $('#feed_back').val(), 
             }
  
-  $.ajax({
+        $.ajax({
             url: '<?php echo base_url(); ?>index.php/estimates_controller/edit_esimate_data',
             type: 'POST', 
             data: data,
@@ -530,7 +598,7 @@ function getItem(){
           if (output.status == 200) { 
           $('.alert-success').removeClass('d-none'); 
           window.scroll(0, 0)
-          $('#myform')[0].reset();
+          //$('#myform')[0].reset();
           
           }
 
@@ -540,29 +608,24 @@ function getItem(){
         });
 
         var data = {
-        estimate_id:estimate_id,
-        item_id: $('#item_id').val(),
-        quantity: $('#quantity').val(),
-
-                   
-      }
-
-    $.ajax({
-         url: '<?php echo base_url(); ?>index.php/estimates_controller/edit_esimate_items',
-         type: 'POST', 
-         data:data,
-    })
-
-      .done(function(data) {
-
-        var output = JSON.parse(data);
-        
-       if (output.status == 200) { 
-         $('.alert-success').removeClass('d-none'); 
-        window.scroll(0, 0)
+          estimate_id:estimate_id,
+          item_data: item_data             
         }
+  
+        $.ajax({
+             url: '<?php echo base_url(); ?>index.php/estimates_controller/edit_esimate_items',
+             type: 'POST', 
+             data:data,
+        }).done(function(data) {
 
-      })
+          var output = JSON.parse(data);
+          
+          if (output.status == 200) { 
+            $('.alert-success').removeClass('d-none'); 
+            window.scroll(0, 0)
+          }
+
+        })
         .fail(function() {
           console.log("error");
        }); 

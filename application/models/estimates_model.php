@@ -149,7 +149,7 @@ public function __construct(){
 
 	public function update_estimate_data($data){
     
-		$update_query =  "UPDATE `estimate_data` SET ".$data['values']." WHERE service_order_no='".$data['service_order_no']."'" ;
+		$update_query =  "UPDATE `estimate_data1` SET ".$data['values']." WHERE service_order_no='".$data['service_order_no']."'" ;
 
 
         $query = $this->db->query($update_query); 
@@ -207,6 +207,37 @@ public function __construct(){
 		}
  
 	}
+
+
+
+	public function delete_estimate_items($data){
+   
+		$insert_query = "DELETE FROM `estimate_items` WHERE `estimate_id`=".$data['estimate_id']."";
+
+		$query = $this->db->query($insert_query); 
+
+		if ($query) {
+
+			$output = array(
+				'status' => 200,  
+				'message' => "Data Deleted Successfully", 
+			);
+
+			return $output;
+			 
+
+		}else{
+
+			$output = array(
+				'status' => 404,  
+				'message' => "Data Deletion Faild", 
+			);
+
+			return $output;  
+		}
+ 
+	}
+
 
 
 
