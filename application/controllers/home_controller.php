@@ -34,13 +34,14 @@ class home_controller extends CI_Controller {
 
 		$result = $this->home_model->get_total_orders(); 
 
-		$arrayName = array(
-			// 'total_monthly_earnings' => $this->home_model->get_total_reservations(), 
+		$arrayName = array( 
 			'total_open_orders' => $this->home_model->total_open_orders(), 
 			'completed_orders' => $this->home_model->completed_orders(), 
-			// 'total_drivers' => $this->home_model->get_total_drivers(), 
-			// 'get_monthly_income' => $this->home_model->get_monthly_income(), 
-			// 'pending_income' => $this->home_model->get_pending_income(), 
+			'cancelled_orders' => $this->home_model->cancelled_orders(), 
+			'estimated_orders' => $this->home_model->estimated_orders(), 
+			'total_orders' => $this->home_model->total_orders(), 
+			'this_month_earnings' => "Rs.".$this->home_model->months_earnings(date("Y-m")), 
+			'get_earnings' => $this->get_earnings(), 
 		);
 
 		$set_json_output = json_encode($arrayName,JSON_PRETTY_PRINT); 
@@ -48,6 +49,35 @@ class home_controller extends CI_Controller {
 
 	 	return $output;
 	}
+
+
+	public function get_earnings(){ 
+
+		for ($k = 0; $k <= 6; $k++) {
+
+	   		if ($k <= 6) {
+	   			$months[] = date("F", strtotime( date( 'Y-m' )." -$k months"));
+	   		} 
+
+	   		$value[] = $this->home_model->months_earnings(date("Y-m", strtotime( date( 'Y-m' )." -$k months")));
+			
+			if ($value[$k] == null ) {
+				$value[$k] = 0;
+			} 
+ 
+	 
+		}
+
+		return $data["results"] = array(
+			'months' => array_reverse($months) ,  
+			'total_sales' =>  array_reverse($value),   
+
+		);
+		
+
+	}
+
+
  
  
 }

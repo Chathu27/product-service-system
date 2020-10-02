@@ -31,24 +31,19 @@
       <?php 
 
         $show_customer = true;
-        $show_service_order = true;
+        $show_service_order = true; 
+        $show_inventory = true;
+        $show_invoice = true;
+        $show_reports = true;
 
 
         if (($this->session->userdata['role'] == 3)) {
 
-          $show_customer = false;
+          $show_customer = false; 
+          $show_invoice = false;
+          $show_reports = false;
 
-        }
-
-
-        // if (condition) {
-        //   # code...
-        // } else if (condition) {
-        //   # code...
-        // }else{
-
-        // }
- 
+        } 
 
        ?>
      
@@ -90,22 +85,26 @@
 
         <?php  }  ?>
 
-      <!-- Nav Item - Utilities Collapse Menu -->
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
-          <i class="fas fa-fw fa-wrench"></i>
-          <span>Inventory</span>
-        </a>
-        <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Item Records:</h6>
+     <?php if ($show_inventory){ ?>
 
-            <a class="collapse-item" href="<?php echo base_url(); ?>index.php/inventory_controller/add_item">Manage stock</a>
+        <li class="nav-item">
+          <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
+            <i class="fas fa-fw fa-wrench"></i>
+            <span>Inventory</span>
+          </a>
+          <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+              <h6 class="collapse-header">Item Records:</h6>
 
+              <a class="collapse-item" href="<?php echo base_url(); ?>index.php/inventory_controller/add_item">Manage stock</a>
+
+            </div>
           </div>
-        </div>
-      </li>
+        </li>
 
+      <?php  }  ?>
+
+      <?php if ($show_invoice){ ?>
 
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
@@ -120,13 +119,17 @@
         </div>
       </li>
 
-      <li class="nav-item">
-        <a class="nav-link" href="<?php echo base_url(); ?>index.php/reports_controller/reports">
-          <i class="fas fa-fw fa-table"></i>
-          <span>Reports</span></a>
-      </li>
+      <?php  }  ?>
 
+       <?php if ($show_reports){ ?>
 
+        <li class="nav-item">
+          <a class="nav-link" href="<?php echo base_url(); ?>index.php/reports_controller/reports">
+            <i class="fas fa-fw fa-table"></i>
+            <span>Reports</span></a>
+        </li>
+
+      <?php  }  ?>
 
 
       <!-- Divider -->
