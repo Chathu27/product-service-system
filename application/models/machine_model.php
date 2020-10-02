@@ -8,7 +8,7 @@ class machine_model extends CI_Model {
 
 public function get_all_machine_data(){
 
-	 	$select_query = "SELECT * FROM `machine_models` ORDER BY machine_id DESC LIMIT 5"; 
+	 	$select_query = "SELECT * FROM `machine_models` ORDER BY machine_id DESC LIMIT 30"; 
 
 		$query = $this->db->query($select_query);
  
