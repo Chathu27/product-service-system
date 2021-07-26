@@ -7,4 +7,4 @@ DATABASE INSTALLATION:
 
 ---> Enter a name for the database, then click on the Create button. The name must be 64 characters or less and composed of letters, numbers and underscores. Avoid using numbers at the start of the name. A good name should indicate the purpose of the database. For example: joomla_database or database_for_drupal. There should be no need to change the other settings: ---> Ensure the database was successfully created: ---> import the file db.sql into the database ---> Enter a name for the database as "foodadda" , then click on the create button. ---> Import the file foodadda.sql into the database created.
 
-PROCEDURE ---> folders are dumped into xampp/htdocs with project folder ---> Home page of the project is named as home.php ---> Open googlechrome and run the server using xampp by giving url as for eg;localhost/home.php #home.php is the home page of the project.
+PROCEDURE ---> folders are dumped into xampp/htdocs with project folder ---> Home page of the project is named as home_page.php ---> Open googlechrome and run the server using xampp by giving url as for eg;localhost/home.php #home.php is the home page of the project.
